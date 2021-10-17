@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- import ICONS font awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!-- css -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Mc Chessi | Home</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle disabled" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Combos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle disabled" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Productos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Carrito</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="bg-isabelline">
+        <section>
+            <div class="container">
+                <div class="row py-3">
+                    <div class="col-12 text-center">
+                        <h1>Comidas y bebidas</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="container py-5 d-flex justify-content-center align-items-center">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-2">
+                        <div class="card" style="width: 18rem;">
+                            <img src="img/papas-fritas.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <span>Opcion 1</span>
+                                <p class="card-text">Porcion de papas fritas
+                                </p>
+                                <span>$450</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="card" style="width: 18rem;">
+                            <img src="img/hamburguesa-con-queso.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <span>Opcion 2</span>
+                                <p class="card-text">Hamburguesa con queso
+                                </p>
+                                <span>$600</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="card" style="width: 18rem;">
+                            <img src="img/ensalada-Cesar.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <span>Opcion 3</span>
+                                <p class="card-text">Ensalada Cesar</p>
+                                <span>$150</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="card" style="width: 18rem;">
+                            <img src="img/botella-de-agua.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <span class="division">Opcion 4</span>
+                                <p class="card-text">Botella de agua</p>
+                                <span>$100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row py-5">
+                <div class="col-12 text-center">
+                    <button type="button" class="btn btn-primary" id="hacerPedido">Hacer pedido</button>
+                    <button type="button" class="btn btn-primary" id="Ordenarmayor">Ordenar mayor precio por
+                        consola</button>
+                    <button type="button" class="btn btn-primary" id="Ordenarmenor">Ordenar menor precio por
+                        consola</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="container-fluid bg-primary">
+        <div class="row">
+            <div class="col-12">
+
+            </div>
+        </div>
+    </footer>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
