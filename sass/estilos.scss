@@ -9,3 +9,27 @@
     box-sizing: border-box;
 }
 
+.header__logo{
+    width: 100px;
+    height: 100px;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+.nav-link,
+.nav-link.active{
+    color: $honey-yellow !important; 
+}
+.nav-link.disabled{
+    color: $medium-champagne !important;
+}
+.navbar-toggler{
+    color: $honey-yellow;
+    span{
+        border-radius: 20%;
+        background-color: $honey-yellow;
+        color: $honey-yellow;
+    }
+}

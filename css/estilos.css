@@ -23,6 +23,16 @@
 .bg-viridian-green {
   background-color: #0fa3b1; }
 
+.imgCarrouselIndex {
+  max-height: 700px;
+  object-fit: cover; }
+
+.carousel__description {
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  color: honeydew; }
+
 .card img {
   border-radius: 50%;
   width: 200px;
@@ -7849,3 +7859,25 @@ textarea.form-control-lg {
   padding: 0;
   margin: 0;
   box-sizing: border-box; }
+
+.header__logo {
+  width: 100px;
+  height: 100px; }
+  .header__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; }
+
+.nav-link,
+.nav-link.active {
+  color: #ffb703 !important; }
+
+.nav-link.disabled {
+  color: #eddea4 !important; }
+
+.navbar-toggler {
+  color: #ffb703; }
+  .navbar-toggler span {
+    border-radius: 20%;
+    background-color: #ffb703;
+    color: #ffb703; }

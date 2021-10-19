@@ -83,7 +83,6 @@ const pedirNombre = () => {
 }
 const verificarNombre = (nombreUsuario) => {
     /* Si no hay clientes aun crea al primero */
-    debugger
     if (clientes.length <= 0) {
         nombreUsuario = new Usuario(nombreUsuario, [1], [], 0)
         clientes.push(nombreUsuario)
@@ -117,18 +116,15 @@ const crearUsuario = () => {
 }
 const iniciarPedido = () => {
     let usuario = crearUsuario()
-    console.log(usuario)
     let quiereSeguir;
+    /* Mientras quiera seguir le volverá a pedir producto */
     do {
-        console.log(usuario)
         let productoIngresado = usuario.pedirProducto()
-        console.log(productoIngresado)
         usuario.agregarProducto(productoIngresado)
         quiereSeguir = consultaSeguir(usuario)
     } while (quiereSeguir);
     let esTotal = usuario.sumarProductos()
     usuario.mostrarTotal(esTotal)
-    console.log(esTotal)
 }
 const $btnHacerPedido = document.querySelector('#hacerPedido').addEventListener('click', iniciarPedido)
 const $btnOrdenarmayor = document.querySelector('#Ordenarmayor').addEventListener('click', ordenarProductosMayorPrecio)
