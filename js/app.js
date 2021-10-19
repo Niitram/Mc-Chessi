@@ -1,29 +1,3 @@
-
-const pedirNombre = () => {
-    let numeroIngresado;
-    if (Cliente.nombre != null && Cliente.nombre != undefined) {
-        return numeroIngresado = parseInt(prompt(`¿${Cliente.nombre} que mas quiere agregar al pedido?`))
-    } else {
-        numeroIngresado = parseInt(prompt('Ingrese su nombre'))
-    }
-    let esCorrecto = true
-    //se chequea que el valor ingresado este bien
-    do {
-        if (Number.isNaN(numeroIngresado) || (numeroIngresado < 1 || numeroIngresado > 4)) {
-            numeroIngresado = parseInt(prompt('ERROR! Ingrese un numero entre 1 y 4'))
-            esCorrecto = false
-        } else {
-            esCorrecto = true
-        }
-    } while (esCorrecto == false);
-    let opcionElegida = numeroIngresado
-    return opcionElegida
-}
-const pedirCuenta = (primera, segunda = 0, tercera = 0) => {
-    let total = primera + segunda + tercera
-    alert(`El total a pagar es de $${total}`)
-}
-
 class Producto {
     constructor(nombre, precio, id, stock) {
         this.nombre = nombre.toUpperCase();
@@ -31,7 +5,6 @@ class Producto {
         this.id = id;
         this.stock = stock;
     }
-
 }
 
 const papasFritas = new Producto("Porcion de papas fritas", 450, "1", 50);
@@ -95,11 +68,22 @@ class Usuario {
     }
 }
 const clientes = [];
-const consultaSeguir = (objUsuario) => confirm(`${objUsuario.nombre} ¿Desea seguir agregando mas productos? sino aprete "cancelar" para pedir la cuenta`)
-const crearUsuario = () => {
-    let nombreUsuario = "";
-    nombreUsuario = prompt('Ingrese su nombre para comenzar (tenga en cuente que si luego quiere agregar mas productos a su carrito deberá ingresar el mismo nombre para que sea valido, de lo contrario se creará un nuevo carrito)')
+const pedirNombre = () => {
+    let esCorrecto = true;
+    let nombreUsuario = prompt('Ingrese su nombre para comenzar (tenga en cuente que si luego quiere agregar mas productos a su carrito deberá ingresar el mismo nombre para que sea valido, de lo contrario se creará un nuevo carrito)')
+    do {
+        if (nombreUsuario === null || nombreUsuario === undefined || nombreUsuario == "") {
+            nombreUsuario = prompt('ERROR! Ingrese su nombre para continuar')
+            esCorrecto = false
+        } else {
+            esCorrecto = true
+        }
+    } while (esCorrecto === false);
+    return nombreUsuario
+}
+const verificarNombre = (nombreUsuario) => {
     /* Si no hay clientes aun crea al primero */
+    debugger
     if (clientes.length <= 0) {
         nombreUsuario = new Usuario(nombreUsuario, [1], [], 0)
         clientes.push(nombreUsuario)
@@ -111,26 +95,37 @@ const crearUsuario = () => {
             if (element.nombre == nombreUsuario) {
                 fueEncontrado = true;
                 alert(`Hola ${element.nombre} ¿que mas desea agregar a su carrito? `)
+                nombreUsuario = element
                 return nombreUsuario
             }
         });
         /* Si el cliente no esta ingresado con ese nombre crea un Usuario nuevo */
         if (fueEncontrado == false) {
-            clientes.push(new Usuario(nombreUsuario, [1], {}, 0))
+            nombreUsuario = new Usuario(nombreUsuario, [1], [], 0)
+            clientes.push(nombreUsuario)
             return nombreUsuario
         }
     }
     return nombreUsuario
 }
+const consultaSeguir = (objUsuario) => confirm(`${objUsuario.nombre} ¿Desea seguir agregando mas productos? sino aprete "cancelar" para pedir la cuenta`)
+const crearUsuario = () => {
+    let nombreUsuario;
+    nombreUsuario = pedirNombre()
+    nombreUsuario = verificarNombre(nombreUsuario)
+    return nombreUsuario
+}
 const iniciarPedido = () => {
     let usuario = crearUsuario()
+    console.log(usuario)
     let quiereSeguir;
     do {
+        console.log(usuario)
         let productoIngresado = usuario.pedirProducto()
+        console.log(productoIngresado)
         usuario.agregarProducto(productoIngresado)
         quiereSeguir = consultaSeguir(usuario)
     } while (quiereSeguir);
-    console.log(usuario.carritoCliente)
     let esTotal = usuario.sumarProductos()
     usuario.mostrarTotal(esTotal)
     console.log(esTotal)
