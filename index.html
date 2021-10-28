@@ -14,7 +14,8 @@
 </head>
 
 <body>
-    <header>
+    <header class="sticky-top">
+
         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="#">
@@ -59,7 +60,22 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled">Carrito</a>
+                            <a id="carritoNavbar" class="nav-link"><i class="fas fa-shopping-cart fs-4"></i></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Ingresar</button>
+                                </li>
+                                <li><button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasTop1" aria-controls="offcanvasTop1">Crear
+                                        Usuario</button>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                     <form class="d-flex">
@@ -69,7 +85,58 @@
                 </div>
             </div>
         </nav>
+        <!-- Offcanvas para Ingresar ususario -->
+        <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+            <div class="offcanvas-header d-flex justify-content-evenly bg-primary">
+                <h5 id="offcanvasTopLabel" class=" text-center">Ingresar usuario</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body d-flex justify-content-evenly bg-isabelline">
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label for="validationServer01" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="validationServer01" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationServer02" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="validationServer02" required>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Ingresar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Offcanvas para Crear ususario -->
+        <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop1" aria-labelledby="offcanvasTopLabel">
+            <div class="offcanvas-header d-flex justify-content-evenly bg-primary">
+                <h5 id="offcanvasTopLabel" class=" text-center">Crear usuario</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
+                    id="btnCerrarcanvas"></button>
+            </div>
+            <div class="offcanvas-body d-flex justify-content-evenly bg-isabelline">
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label for="nombreCrearUsuario" class="form-label">Nombre</label>
+                        <input type="text" id="nombreCrearUsuario" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="passwordCrearUsuario" class="form-label">Contraseña</label>
+                        <input type="text" id="passwordCrearUsuario" required>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit" id="btnCrearUsuario">Crear
+                            Usuario</button>
+                    </div>
+                </form>
+            </div>
     </header>
+
     <main class="bg-isabelline">
         <!-- empieza section carrousel -->
         <section>
@@ -101,10 +168,10 @@
                     data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </section>
         <!-- fin section carrousel -->
+
         <!-- empieza section productos -->
         <section>
             <div class="container">
@@ -115,52 +182,11 @@
                 </div>
             </div>
             <div class="container py-5 d-flex justify-content-center align-items-center">
-                <div class="row d-flex flex-wrap flex-column flex-md-row justify-content-between align-content-center">
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3">
-                        <div class="card" style="width: 18rem;">
-                            <img src="img/papas-fritas.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <span>Opcion 1</span>
-                                <p class="card-text">Porcion de papas fritas
-                                </p>
-                                <span>$450</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3">
-                        <div class="card" style="width: 18rem;">
-                            <img src="img/hamburguesa-con-queso.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <span>Opcion 2</span>
-                                <p class="card-text">Hamburguesa con queso
-                                </p>
-                                <span>$600</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3">
-                        <div class="card" style="width: 18rem;">
-                            <img src="img/ensalada-Cesar.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <span>Opcion 3</span>
-                                <p class="card-text">Ensalada Cesar</p>
-                                <span>$150</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 my-3">
-                        <div class="card" style="width: 18rem;">
-                            <img src="img/botella-de-agua.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <span class="division">Opcion 4</span>
-                                <p class="card-text">Botella de agua</p>
-                                <span>$100</span>
-                            </div>
-                        </div>
-                    </div>
+                <div id="contenedorProductos"
+                    class="row d-flex flex-wrap flex-column flex-md-row justify-content-between align-content-center">
                 </div>
             </div>
-            <div class="col-12 text-center">
+            <div class="col-12 text-center mb-5">
                 <button type="button" class="btn btn-primary" id="hacerPedido">Hacer pedido</button>
                 <button type="button" class="btn btn-primary" id="Ordenarmayor">Ordenar mayor precio por
                     consola</button>

@@ -9,12 +9,12 @@
     box-sizing: border-box;
 }
 
+/* Navbar */
 .header__logo{
     width: 100px;
-    height: 100px;
+    height: 50px;
     img{
         width: 100%;
-        height: 100%;
         object-fit: contain;
     }
 }
@@ -23,7 +23,7 @@
     color: $honey-yellow !important; 
 }
 .nav-link.disabled{
-    color: $medium-champagne !important;
+    color: gray !important;
 }
 .navbar-toggler{
     color: $honey-yellow;
@@ -33,3 +33,16 @@
         color: $honey-yellow;
     }
 }
+/* cantidad del carrito */
+.carritoNavbar{
+    display: inline-block;
+    width: 1.4rem;
+    border-radius: 50%;
+    background-color: red;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    
+}
+/* fin navbar */
