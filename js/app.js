@@ -44,6 +44,74 @@ const ordenarProductosMayorPrecio = () => {
     console.log(productoMayorPrecio);
 };
 
+
+
+
+//Modifica el numero del carrito en el navbar
+const cambiarNumeroCarrito = (cantidad) => {
+    $carritoNavbar.textContent = `${cantidad}`;
+};
+
+//Agrega el producto al array de productos
+const agregarProducto = (usuario) => {
+    productos.forEach((elemento) => {
+        if (elemento.id == id) {
+            return usuario.carritoCliente.push(elemento);
+        }
+    });
+};
+
+//funcion del boton para agreagar al carrito
+const AgregarAlCarrito = (e) => {
+    if (e.target.id) {
+        agarrarCardProducto(e.target.parentElement.parentElement.parentElement);
+    }
+
+    e.stopPropagation();
+};
+
+//dibuja en el DOM la cantidad del carrito
+const crearContadorCarrito = () => {
+    let contador = 0;
+    let carritoSumando = Object.keys(carrito)
+    carritoSumando.forEach((elemento) => {
+        contador += carrito[elemento].cantidad;
+    })
+    if (contador > 0) {
+        let spanContador = document.createElement("span");
+        if (contador > 1) {
+            document.getElementById('cantidadCarritoNavbar').innerHTML = `<span id="carritoNavbar" class="carritoNavbar">${contador}</span>`;
+        } else {
+            spanContador.innerHTML = `
+                <span id="cantidadCarritoNavbar" class="carritoNavbar">${contador}</span>
+            `;
+            $carritoNavbar.appendChild(spanContador);
+        }
+    }
+
+}
+
+
+//funcion que captura el elemento seleccionado en este caso la card
+const agarrarCardProducto = (e) => {
+    const productoElegido = {
+        id: e.id,
+        nombre: e.querySelector(".card-text").textContent,
+        precio: parseInt(e.querySelector(".precioCard").textContent),
+        cantidad: 1,
+    }
+    if (carrito.hasOwnProperty(productoElegido.id)) {
+        productoElegido.cantidad = 1 + carrito[productoElegido.id].cantidad;
+    }
+    carrito[productoElegido.id] = { ...productoElegido };
+    console.log(carrito);
+    crearContadorCarrito()
+}
+
+
+
+
+
 //Creacion de la clase usuario
 class Usuario {
     constructor(nombre, password, pedidoNumero, carritoCliente, cuentaTotal) {
@@ -88,56 +156,13 @@ class Usuario {
         alert(`El total a pagar es ${total}`);
     }
 }
-//crea el elemento contador del carrito
-crearContadorCarrito = (cantidad) => {
-    let spanContador = document.createElement("span");
-    spanContador.innerHTML = `
-        <span id="carritoNavbar" class="carritoNavbar">${cantidad}</span>
-        `;
-    $carritoNavbar.appendChild(spanContador);
-};
-
-//Modifica el numero del carrito en el navbar
-const cambiarNumeroCarrito = (cantidad) => {
-    $carritoNavbar.textContent = `${cantidad}`;
-};
-//Agrega el producto al array de productos
-const agregarProducto = (usuario) => {
-    productos.forEach((elemento) => {
-        if (elemento.id == id) {
-            return usuario.carritoCliente.push(elemento);
-        }
-    });
-};
-
-//funcion del boton para agreagar al carrito
-const AgregarAlCarrito = (e) => {
-    if (e.target.id) {
-        agarrarCardProducto(e.target.parentElement.parentElement.parentElement);
-    }
-
-    e.stopPropagation();
-};
-
-//funcion que captura el elemento seleccionado
-const agarrarCardProducto = (e) => {
-    const productoElegido = {
-        id: e.id,
-        nombre: e.querySelector(".card-text").textContent,
-        precio: parseInt(e.querySelector(".precioCard").textContent),
-        cantidad: 1,
-    }
-    if (carrito.hasOwnProperty(productoElegido.id)) {
-        productoElegido.cantidad = 1 + carrito[productoElegido.id].cantidad;
-    }
-    carrito[productoElegido.id] = { ...productoElegido };
-}
-
 
 //Arreglo clientes para tener la lista de los clientes
 const clientes = [];
 localStorage.setItem("Clientes", JSON.stringify(clientes));
 let clientesStorage = JSON.parse(localStorage.getItem("Clientes"));
+
+
 
 //Función pedir nombre por input
 const capturarNombre = () => {
@@ -198,11 +223,6 @@ const verificarNombre = (nombreUsuario, password) => {
     }
 };
 
-//Funcion para preguntar al usuario por confirm si quiere seguir
-const consultaSeguir = (objUsuario) =>
-    confirm(
-        `${objUsuario.nombre} ¿Desea seguir agregando mas productos? sino aprete "cancelar" para pedir la cuenta`
-    );
 
 //Funcion Para crear Usuario y retorna el usuario ingresado
 const crearUsuario = () => {
@@ -225,19 +245,6 @@ const inputsCompletados = () => {
     }
 };
 
-//Funcion que inicia el pedido
-/* const iniciarPedido = () => {
-    let usuario = crearUsuario();
-    let quiereSeguir; */
-/* Mientras quiera seguir le volverá a pedir producto */
-/*   do {
-      let productoIngresado = usuario.pedirProducto();
-      agregarProducto(productoIngresado);
-      quiereSeguir = consultaSeguir(usuario);
-  } while (quiereSeguir);
-  let esTotal = usuario.sumarProductos();
-  usuario.mostrarTotal(esTotal);
-}; */
 
 //funcion alerta el usuario ya existe ingresar usuario
 const alertUsuarioExistente = () => {
