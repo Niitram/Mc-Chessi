@@ -95,17 +95,17 @@
             <div class="offcanvas-body d-flex justify-content-evenly bg-isabelline">
                 <form class="row g-3">
                     <div class="col-md-4">
-                        <label for="validationServer01" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="validationServer01" required>
+                        <label for="inputIngresarUsuario" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="inputIngresarUsuario" required>
                     </div>
                     <div class="col-md-4">
-                        <label for="validationServer02" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="validationServer02" required>
+                        <label for="inputIngresarPassword" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="inputIngresarPassword" required>
                     </div>
-                    <div class="col-md-4">
+                    <div id="erroresIngreso" class="col-8">
                     </div>
                     <div class="col-12">
-                        <button class="btn btn-primary" type="submit">Ingresar</button>
+                        <button id="btnIngresarUsuario" class="btn btn-primary" type="submit">Ingresar</button>
                     </div>
                 </form>
             </div>
@@ -125,7 +125,7 @@
                     </div>
                     <div class="col-md-4">
                         <label for="passwordCrearUsuario" class="form-label">Contraseña</label>
-                        <input type="text" id="passwordCrearUsuario" required>
+                        <input type="password" id="passwordCrearUsuario" required>
                     </div>
                     <div class="col-12" id="errorCamposIncompletos">
                     </div>
