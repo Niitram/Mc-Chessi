@@ -152,11 +152,18 @@ class Usuario {
 }
 
 
+//Crea el usuario actual y lo agrega al localStorage
+const crearUsuarioActual = (usuarioActual) => {
+    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+    return usuarioActual;
+}
 
-const usuarioActual = [];
+//Elimina el usuario actual del localStorage
+const eliminarUsuarioActual = () => {
+    localStorage.removeItem("usuarioActual");
+}
 
-
-//Función pedir nombre por input
+//Función captura valor del input
 const capturarInput = (IDinput) => {
     let valorInput = document.getElementById(`${IDinput}`).value;
     return valorInput;
@@ -169,6 +176,46 @@ const verificaInputsCompletados = (input1, input2) => {
     }
     return true;
 };
+
+
+//agrega el btn de iniciar sesion y el btn de cerrar sesion
+const agregaBtnsLoginYCrearUsuario = (estaLogueado) => {
+    if (!estaLogueado) {
+        $("#dropdownUsuario").children().remove();
+        $("#dropdownUsuario").prepend(`
+            <li>
+                <button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Ingresar</button>
+            </li>
+            <li>
+                <button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasTop1" aria-controls="offcanvasTop1">Crear
+                    Usuario</button>
+            </li>
+        `);
+
+    } else {
+        $("#dropdownUsuario").children().remove();
+        $("#dropdownUsuario").prepend(`
+            <li>
+                <a href="../perfil_usuario.html" class="btn dropdown-item">Mi perfil</a>
+            </li>
+            <li>
+                <button id="btnCerrarSesion" class="btn dropdown-item" type="button">Cerrar sesion</button>
+            </li>
+        `);
+    }
+}
+//Verifica si el usuario actual existe
+const verificaUsuarioActual = () => {
+    return localStorage.getItem("usuarioActual") != null ? true : false;
+}
+//Se crean los botones para el usuario en el navBar
+const crearBtnsUsuarioNavBar = () => {
+    let estaConectado = verificaUsuarioActual()
+    agregaBtnsLoginYCrearUsuario(estaConectado)
+}
+
 
 //Funcion verificar si el nombre existe y si no existe crea el objeto usuario y los mete en el arreglo clientes
 const creaObjetoUsuario = (nombreUsuario, password) => {
@@ -183,15 +230,16 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
         clientesStorage.push(nombreUsuario);
         localStorage.setItem("Clientes", JSON.stringify(clientesStorage));
         alert(`Usuario ${nombreUsuario.nombre} creado con exito`)
-        usuarioActual.push(nombreUsuario);
+        agregarNombreUsuarioNavBar(nombreUsuario.nombre)
+        crearUsuarioActual(nombreUsuario);
         document.getElementById("btnCerrarcanvas").click();
         if (document.getElementById("btnCerrarAlertIngresarUsuario") != null) {
             document.getElementById("btnCerrarAlertIngresarUsuario").click();
         }
         return;
     } else {
-        let fueEncontrado = false;
         /* Si hay clientes busca entre la lista de clientes si ya existe el cliente */
+        let fueEncontrado = false;
         for (const element of clientesStorage) {
             if (element.nombre === nombreUsuario && element.password === password) {
                 fueEncontrado = true;
@@ -204,8 +252,9 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
             nombreUsuario = new Usuario(nombreUsuario, password, [1], [], 0);
             clientesStorage.push(nombreUsuario);
             localStorage.setItem("Clientes", JSON.stringify(clientesStorage));
-            alert(`Usuario ${nombreUsuario.nombre} creado con exito`)
-            usuarioActual.push(nombreUsuario);
+            alert(`Usuario ${nombreUsuario.nombre} creado con exito`);
+            agregarNombreUsuarioNavBar(nombreUsuario.nombre);
+            crearUsuarioActual(nombreUsuario);
             document.getElementById("btnCerrarcanvas").click();
             if (document.getElementById("btnCerrarAlertIngresarUsuario") != null) {
                 document.getElementById("btnCerrarAlertIngresarUsuario").click();
@@ -214,6 +263,17 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
         }
     }
 };
+
+
+//Agrega en el navBar el nombre del usuario y le pone la clase con color color
+const agregarNombreUsuarioNavBar = (nombreUsuario) => {
+    if ($(".usuarioNavBar span")) {
+        $(".usuarioNavBar span").remove()
+    }
+    $(".usuarioNavBar").prepend(`<span class="fw-bolder color-viridian-green">${nombreUsuario}</span>`);
+    $(".usuarioNavBar i").addClass("color-viridian-green");
+}
+
 
 // se captura el usuario ingresado en los inputs "Crear Usuario"
 document.querySelector("#btnCrearUsuario").addEventListener("click", (e) => {
@@ -240,9 +300,10 @@ document.querySelector("#btnCrearUsuario").addEventListener("click", (e) => {
         return
     } else {
         creaObjetoUsuario(nombreUsuario, password)
+        agregarNombreUsuarioNavBar(nombreUsuario)
+        crearBtnsUsuarioNavBar();
     }
 })
-
 
 //funcion alerta el usuario ya existe ingresar usuario
 const alertUsuarioExistente = () => {
@@ -274,18 +335,46 @@ const login = (nombreUsuario, password) => {
     clientesStorage.forEach((element) => {
         if (element.nombre == nombreUsuario && element.password == password) {
             fueEncontrado = true;
-            alert(`Bienvenido ${element.nombre}`);
-            nombreUsuario = element;
+            agregarNombreUsuarioNavBar(element.nombre);
+            $('body header').append(`
+            <div id="bienvenidaUsuario" class="alert mb-0 alert-success d-flex justify-content-center align-items-center" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    </symbol>
+                </svg>
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
+                    <use xlink:href="#info-fill" />
+                </svg>
+                <div>
+                Bienvenid@ ${nombreUsuario}
+                </div>
+            </div>
+            `);
+            crearBtnsUsuarioNavBar()
+            agregarNombreUsuarioNavBar(nombreUsuario)
+            crearUsuarioActual(element)
+            //Si no se cerro el alert previamente lo cierra con el btn cerrar
+            if (document.getElementById("btnCerrarAlertIngresarUsuario") != null) {
+                document.getElementById("btnCerrarAlertIngresarUsuario").click();
+            }
+            document.getElementById("btnCerrarCanvasLogIn").click();
+            setTimeout(function () {
+                $('#bienvenidaUsuario').remove("#bienvenidaUsuario");
+            }, 3000);
             return false;
         }
     });
+    //si el usuario no fue encontrado avisa con una alerta
     if (!fueEncontrado) {
         let spanAlerta = document.createElement("span");
         spanAlerta.style.color = "red";
-        spanAlerta.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-        </symbol>
+        spanAlerta.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </symbol>
         </svg>
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
             <use xlink:href="#info-fill" />
@@ -294,12 +383,12 @@ const login = (nombreUsuario, password) => {
         document.querySelector("#erroresIngreso").appendChild(spanAlerta);
         setTimeout(function () {
             document.querySelector("#erroresIngreso").removeChild(spanAlerta);
-        }, 2000);
+        }, 3000);
         return
     }
 }
 
-// se captura el usuario ingresado en los inputs "Ingresar"
+// se captura el usuario ingresado en los inputs "Ingresar" y se hace login
 document.querySelector("#btnIngresarUsuario").addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -324,11 +413,10 @@ document.querySelector("#btnIngresarUsuario").addEventListener("click", (e) => {
         return
     } else {
         login(nombreUsuario, password)
+        crearBtnsUsuarioNavBar();
     }
 })
 
-
-//desafio complementario clase 9
 //funcion para agregar cards en el html
 const agregarCardsProductolHtml = () => {
     productos.forEach((element) => {
@@ -395,7 +483,27 @@ const $btnOrdenarmenor = document
 
 
 window.onload = function () {
-    alertIngresarUsuario();
-    agregarCardsProductolHtml()
+    //Si el usuario esta logueado se crean los botones de usuario
+    if (localStorage.getItem("usuarioActual")) {
+        crearBtnsUsuarioNavBar()
+        let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"))
+        agregarNombreUsuarioNavBar(usuarioActual.nombre);
+        $("#btnCerrarSesion").on("click", () => {
+            localStorage.removeItem("usuarioActual")
+            crearBtnsUsuarioNavBar()
+            $(".usuarioNavBar span").remove()
+            $(".usuarioNavBar i").removeClass("color-viridian-green");
+        })
+    } else {
+        alertIngresarUsuario();
+    }
 
+    agregarCardsProductolHtml()
+    //si el documento que se carga tiene el titulo
+    if (document.querySelector("title").textContent === "Mc Chessi | Home") {
+
+    }
+    if (document.querySelector("title").textContent === "Mc Chessi | Home") {
+
+    }
 };

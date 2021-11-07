@@ -63,15 +63,17 @@
                             <a id="carritoNavbar" class="nav-link"><i class="fas fa-shopping-cart fs-4"></i></a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            <a class="nav-link dropdown-toggle usuarioNavBar" href="#" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user"></i>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
+                            <ul id="dropdownUsuario" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Ingresar</button>
                                 </li>
-                                <li><button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
+                                <li>
+                                    <button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
                                         data-bs-target="#offcanvasTop1" aria-controls="offcanvasTop1">Crear
                                         Usuario</button>
                                 </li>
@@ -89,7 +91,7 @@
         <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
             <div class="offcanvas-header d-flex justify-content-evenly bg-primary">
                 <h5 id="offcanvasTopLabel" class=" text-center">Ingresar usuario</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                <button id="btnCerrarCanvasLogIn" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
             </div>
             <div class="offcanvas-body d-flex justify-content-evenly bg-isabelline">
@@ -202,8 +204,10 @@
             </div>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/app.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 
 </html>
