@@ -214,6 +214,7 @@ const verificaUsuarioActual = () => {
 const crearBtnsUsuarioNavBar = () => {
     let estaConectado = verificaUsuarioActual()
     agregaBtnsLoginYCrearUsuario(estaConectado)
+    agregarEventBtnCerrarSesion()
 }
 
 
@@ -302,6 +303,7 @@ document.querySelector("#btnCrearUsuario").addEventListener("click", (e) => {
         creaObjetoUsuario(nombreUsuario, password)
         agregarNombreUsuarioNavBar(nombreUsuario)
         crearBtnsUsuarioNavBar();
+        agregarEventBtnCerrarSesion()
     }
 })
 
@@ -336,6 +338,7 @@ const login = (nombreUsuario, password) => {
         if (element.nombre == nombreUsuario && element.password == password) {
             fueEncontrado = true;
             agregarNombreUsuarioNavBar(element.nombre);
+            //desafio clase 12
             $('body header').append(`
             <div id="bienvenidaUsuario" class="alert mb-0 alert-success d-flex justify-content-center align-items-center" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -355,6 +358,7 @@ const login = (nombreUsuario, password) => {
             crearBtnsUsuarioNavBar()
             agregarNombreUsuarioNavBar(nombreUsuario)
             crearUsuarioActual(element)
+
             //Si no se cerro el alert previamente lo cierra con el btn cerrar
             if (document.getElementById("btnCerrarAlertIngresarUsuario") != null) {
                 document.getElementById("btnCerrarAlertIngresarUsuario").click();
@@ -471,9 +475,16 @@ const alertIngresarUsuario = () => {
 };
 
 //Agregado de los eventos a los botones
-/* const $btnHacerPedido = document
-    .querySelector("#hacerPedido")
-    .addEventListener("click", iniciarPedido); */
+
+const agregarEventBtnCerrarSesion = (e) => {
+    $("#btnCerrarSesion").on("click", () => {
+        localStorage.removeItem("usuarioActual")
+        crearBtnsUsuarioNavBar()
+        $(".usuarioNavBar span").remove()
+        $(".usuarioNavBar i").removeClass("color-viridian-green");
+    })
+}
+
 const $btnOrdenarmayor = document
     .querySelector("#Ordenarmayor")
     .addEventListener("click", ordenarProductosMayorPrecio);
@@ -488,12 +499,7 @@ window.onload = function () {
         crearBtnsUsuarioNavBar()
         let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"))
         agregarNombreUsuarioNavBar(usuarioActual.nombre);
-        $("#btnCerrarSesion").on("click", () => {
-            localStorage.removeItem("usuarioActual")
-            crearBtnsUsuarioNavBar()
-            $(".usuarioNavBar span").remove()
-            $(".usuarioNavBar i").removeClass("color-viridian-green");
-        })
+        agregarEventBtnCerrarSesion()
     } else {
         alertIngresarUsuario();
     }
