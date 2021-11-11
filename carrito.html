@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- import ICONS font awesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!-- css -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Carrito</title>
+</head>
+
+<body>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <div class="header__logo"><img src="img/Logo-Mc-Chessi_recortada.png" alt="logo mac Chessi"></div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle disabled" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Combos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle disabled" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Productos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="carrito.html" id="carritoNavbar" class="nav-link"><i
+                                    class="fas fa-shopping-cart fs-4"></i></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle usuarioNavBar" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <ul id="dropdownUsuario" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Ingresar</button>
+                                </li>
+                                <li>
+                                    <button class="btn dropdown-item" type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasTop1" aria-controls="offcanvasTop1">Crear
+                                        Usuario</button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!-- Offcanvas para Ingresar ususario -->
+        <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+            <div class="offcanvas-header d-flex justify-content-evenly bg-primary">
+                <h5 id="offcanvasTopLabel" class=" text-center">Ingresar usuario</h5>
+                <button id="btnCerrarCanvasLogIn" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body d-flex justify-content-evenly bg-isabelline">
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label for="inputIngresarUsuario" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="inputIngresarUsuario" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputIngresarPassword" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="inputIngresarPassword" required>
+                    </div>
+                    <div id="erroresIngreso" class="col-8">
+                    </div>
+                    <div class="col-12">
+                        <button id="btnIngresarUsuario" class="btn btn-primary" type="submit">Ingresar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Offcanvas para Crear ususario -->
+        <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop1" aria-labelledby="offcanvasTopLabel">
+            <div class="offcanvas-header d-flex justify-content-evenly bg-primary">
+                <h5 id="offcanvasTopLabel" class=" text-center">Crear usuario</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
+                    id="btnCerrarcanvas"></button>
+            </div>
+            <div class="offcanvas-body d-flex justify-content-evenly bg-isabelline">
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label for="nombreCrearUsuario" class="form-label">Nombre</label>
+                        <input type="text" id="nombreCrearUsuario" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="passwordCrearUsuario" class="form-label">Contraseña</label>
+                        <input type="password" id="passwordCrearUsuario" required>
+                    </div>
+                    <div class="col-12" id="errorCamposIncompletos">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit" id="btnCrearUsuario">Crear
+                            Usuario</button>
+                    </div>
+                </form>
+            </div>
+    </header>
+    <main>
+        <section id="seccionCarrito" class="container">
+            <div class="row">
+                <div class="col-12 py-4 mt-5">
+                    <span class="text-center"><i class="fas fa-shopping-cart fs-4"></i> Carrito</span>
+                </div>
+                <div id="contenedorCarrito" class="bg-isabelline col-12 d-flex flex-column">
+                    <!-- //Aca va el contenido del carrito -->
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <span id="totalCarrito">$169</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/carrito.js"></script>
+</body>
+
+</html>

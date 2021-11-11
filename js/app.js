@@ -44,23 +44,11 @@ const ordenarProductosMayorPrecio = () => {
     console.log(productoMayorPrecio);
 };
 
-
-
-//Agrega el producto al array de productos
-const agregarProducto = (usuario) => {
-    productos.forEach((elemento) => {
-        if (elemento.id == id) {
-            return usuario.carritoCliente.push(elemento);
-        }
-    });
-};
-
 //funcion del boton para agreagar al carrito
 const AgregarAlCarrito = (e) => {
     if (e.target.id) {
-        agarrarCardProducto(e.target.parentElement.parentElement.parentElement);
+        agarrarProductoElegido(e.target.parentElement.parentElement.parentElement);
     }
-
     e.stopPropagation();
 };
 
@@ -84,27 +72,59 @@ const crearContadorCarrito = () => {
     }
 
 }
+//funcion para agregar cards en el html
+const agregarCardsProductolIndex = () => {
+    productos.forEach((element) => {
+        const $cardProducto = document.createElement("div");
+        $cardProducto.id = element.id;
+        $cardProducto.className = "col-12 col-md-6 col-lg-4 col-xl-3 my-3";
+        $cardProducto.innerHTML += `
+                        <div class="card" style="width: 18rem;">
+                            <img src="${element.img}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <p class="card-text">${element.nombre}</p>
+                                <span>$<span class="precioCard">${element.precio}</span></span>
+                            </div>
+                            <div class="d-flex justify-content-center my-2">
+                                <button type="button" id="${element.id}" class="btn btn-primary btnAgregarCarrito">Agregar al
+                                    carrito</button>
+                            </div>
+                        </div>
+        `;
+        document.getElementById("contenedorProductos").appendChild($cardProducto);
+        document.getElementById(element.id).addEventListener("click", (e) => {
+            if (e.target.className == "btn btn-primary btnAgregarCarrito") {
+                AgregarAlCarrito(e)
+            }
+            e.stopPropagation();
+        })
+    });
+};
+
 
 
 //funcion que captura el elemento seleccionado en este caso la card
-const agarrarCardProducto = (e) => {
+const agarrarProductoElegido = (e) => {
     const productoElegido = {
         id: e.id,
         nombre: e.querySelector(".card-text").textContent,
         precio: parseInt(e.querySelector(".precioCard").textContent),
         cantidad: 1,
+        img: e.querySelector("img").src
     }
     if (carrito.hasOwnProperty(productoElegido.id)) {
         productoElegido.cantidad = 1 + carrito[productoElegido.id].cantidad;
     }
     carrito[productoElegido.id] = { ...productoElegido };
-    console.log(carrito);
+    let clienteActual = capturarClienteActual();
+    clienteActual.carritoCliente = carrito
+    console.log(clienteActual);
+    localStorage.setItem("usuarioActual", JSON.stringify(clienteActual));
     crearContadorCarrito()
 }
 
 
-
-
+/*-------------- EMPIEZA LOGICA USUARIO -------------- */
 
 //Creacion de la clase usuario
 class Usuario {
@@ -151,16 +171,26 @@ class Usuario {
     }
 }
 
-
 //Crea el usuario actual y lo agrega al localStorage
 const crearUsuarioActual = (usuarioActual) => {
     localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
     return usuarioActual;
 }
 
+//Se captura al cliente Actual
+const capturarClienteActual = () => {
+    let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
+    return usuarioActual;
+}
+
 //Elimina el usuario actual del localStorage
 const eliminarUsuarioActual = () => {
     localStorage.removeItem("usuarioActual");
+}
+
+const saludarUsuario = () => {
+    let usuarioActual = capturarClienteActual();
+    alert(`Bienvenido ${usuarioActual.nombre}`);
 }
 
 //Función captura valor del input
@@ -176,7 +206,6 @@ const verificaInputsCompletados = (input1, input2) => {
     }
     return true;
 };
-
 
 //agrega el btn de iniciar sesion y el btn de cerrar sesion
 const agregaBtnsLoginYCrearUsuario = (estaLogueado) => {
@@ -216,7 +245,6 @@ const crearBtnsUsuarioNavBar = () => {
     agregaBtnsLoginYCrearUsuario(estaConectado)
     agregarEventBtnCerrarSesion()
 }
-
 
 //Funcion verificar si el nombre existe y si no existe crea el objeto usuario y los mete en el arreglo clientes
 const creaObjetoUsuario = (nombreUsuario, password) => {
@@ -265,7 +293,6 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
     }
 };
 
-
 //Agrega en el navBar el nombre del usuario y le pone la clase con color color
 const agregarNombreUsuarioNavBar = (nombreUsuario) => {
     if ($(".usuarioNavBar span")) {
@@ -274,7 +301,6 @@ const agregarNombreUsuarioNavBar = (nombreUsuario) => {
     $(".usuarioNavBar").prepend(`<span class="fw-bolder color-viridian-green">${nombreUsuario}</span>`);
     $(".usuarioNavBar i").addClass("color-viridian-green");
 }
-
 
 // se captura el usuario ingresado en los inputs "Crear Usuario"
 document.querySelector("#btnCrearUsuario").addEventListener("click", (e) => {
@@ -392,6 +418,7 @@ const login = (nombreUsuario, password) => {
     }
 }
 
+
 // se captura el usuario ingresado en los inputs "Ingresar" y se hace login
 document.querySelector("#btnIngresarUsuario").addEventListener("click", (e) => {
     e.preventDefault();
@@ -421,36 +448,6 @@ document.querySelector("#btnIngresarUsuario").addEventListener("click", (e) => {
     }
 })
 
-//funcion para agregar cards en el html
-const agregarCardsProductolHtml = () => {
-    productos.forEach((element) => {
-        const $cardProducto = document.createElement("div");
-        $cardProducto.id = element.id;
-        $cardProducto.className = "col-12 col-md-6 col-lg-4 col-xl-3 my-3";
-        $cardProducto.innerHTML += `
-                        <div class="card" style="width: 18rem;">
-                            <img src="${element.img}" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <p class="card-text">${element.nombre}</p>
-                                <span>$<span class="precioCard">${element.precio}</span></span>
-                            </div>
-                            <div class="d-flex justify-content-center my-2">
-                                <button type="button" id="${element.id}" class="btn btn-primary btnAgregarCarrito">Agregar al
-                                    carrito</button>
-                            </div>
-                        </div>
-        `;
-        document.getElementById("contenedorProductos").appendChild($cardProducto);
-        document.getElementById(element.id).addEventListener("click", (e) => {
-            if (e.target.className == "btn btn-primary btnAgregarCarrito") {
-                AgregarAlCarrito(e)
-            }
-            e.stopPropagation();
-        })
-    });
-
-};
-
 //funcion alerta de ingresar usuario
 const alertIngresarUsuario = () => {
     let alertIngresar = document.createElement("div");
@@ -474,8 +471,7 @@ const alertIngresarUsuario = () => {
     document.querySelector("body header").appendChild(alertIngresar);
 };
 
-//Agregado de los eventos a los botones
-
+//Agregado de los eventos a los botones de cerrar sesion usuario
 const agregarEventBtnCerrarSesion = (e) => {
     $("#btnCerrarSesion").on("click", () => {
         localStorage.removeItem("usuarioActual")
@@ -485,12 +481,6 @@ const agregarEventBtnCerrarSesion = (e) => {
     })
 }
 
-const $btnOrdenarmayor = document
-    .querySelector("#Ordenarmayor")
-    .addEventListener("click", ordenarProductosMayorPrecio);
-const $btnOrdenarmenor = document
-    .querySelector("#Ordenarmenor")
-    .addEventListener("click", ordenarProductosMenorPrecio);
 
 
 window.onload = function () {
@@ -504,12 +494,15 @@ window.onload = function () {
         alertIngresarUsuario();
     }
 
-    agregarCardsProductolHtml()
-    //si el documento que se carga tiene el titulo
-    if (document.querySelector("title").textContent === "Mc Chessi | Home") {
-
-    }
-    if (document.querySelector("title").textContent === "Mc Chessi | Home") {
-
+    //si el documento que se carga tiene es el index
+    if (document.location.pathname === "/index.html") {
+        //Se cargan las cards en el html
+        agregarCardsProductolIndex()
+        document
+            .querySelector("#Ordenarmayor")
+            .addEventListener("click", ordenarProductosMayorPrecio);
+        document
+            .querySelector("#Ordenarmenor")
+            .addEventListener("click", ordenarProductosMenorPrecio);
     }
 };
