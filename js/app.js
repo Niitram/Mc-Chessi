@@ -482,7 +482,7 @@ const agregarEventBtnCerrarSesion = (e) => {
 }
 
 
-
+console.log(document.location)
 window.onload = function () {
     //Si el usuario esta logueado se crean los botones de usuario
     if (localStorage.getItem("usuarioActual")) {
@@ -495,7 +495,7 @@ window.onload = function () {
     }
 
     //si el documento que se carga tiene es el index
-    if (document.location.pathname === "/index.html") {
+    if (document.location.pathname === "/index.html" || document.location.pathname === "/Mc-Chessi/") {
         //Se cargan las cards en el html
         agregarCardsProductolIndex()
         document
