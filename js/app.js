@@ -13,10 +13,10 @@ class Producto {
     }
 }
 //Creacion de los productos
-const papasFritas = new Producto("Porcion de papas fritas", 450, "1", 50, "../img/papas-fritas.jpg", 0);
-const hamburguesaConQueso = new Producto("Hamburguesa con queso", 600, "2", 50, "../img/hamburguesa-con-queso.png", 0);
-const ensaladaCesar = new Producto("Ensalada Cesar", 150, "3", 50, "../img/ensalada-Cesar.jpg", 0);
-const botellaDeAgua = new Producto("Botella de agua", 100, "4", 50, "../img/botella-de-agua.jpg", 0);
+const papasFritas = new Producto("Porcion de papas fritas", 450, "1", 50, "papas-fritas.jpg", 0);
+const hamburguesaConQueso = new Producto("Hamburguesa con queso", 600, "2", 50, "hamburguesa-con-queso.png", 0);
+const ensaladaCesar = new Producto("Ensalada Cesar", 150, "3", 50, "ensalada-Cesar.jpg", 0);
+const botellaDeAgua = new Producto("Botella de agua", 100, "4", 50, "botella-de-agua.jpg", 0);
 
 //Array con todos los productos
 const productos = [
@@ -80,7 +80,7 @@ const agregarCardsProductolIndex = () => {
         $cardProducto.className = "col-12 col-md-6 col-lg-4 col-xl-3 my-3";
         $cardProducto.innerHTML += `
                         <div class="card" style="width: 18rem;">
-                            <img src="${element.img}" class="card-img-top" alt="...">
+                            <img src="/img/${element.img}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <p class="card-text">${element.nombre}</p>
                                 <span>$<span class="precioCard">${element.precio}</span></span>
