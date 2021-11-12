@@ -80,7 +80,7 @@ const agregarCardsProductolIndex = () => {
         $cardProducto.className = "col-12 col-md-6 col-lg-4 col-xl-3 my-3";
         $cardProducto.innerHTML += `
                         <div class="card" style="width: 18rem;">
-                            <img src="/img/${element.img}" class="card-img-top" alt="...">
+                            <img src="../img/${element.img}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <p class="card-text">${element.nombre}</p>
                                 <span>$<span class="precioCard">${element.precio}</span></span>
@@ -481,8 +481,6 @@ const agregarEventBtnCerrarSesion = (e) => {
     })
 }
 
-
-console.log(document.location)
 window.onload = function () {
     //Si el usuario esta logueado se crean los botones de usuario
     if (localStorage.getItem("usuarioActual")) {
