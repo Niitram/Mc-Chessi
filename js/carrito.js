@@ -31,4 +31,5 @@ const agregaCardProductoCarritoHtml = () => {
     }
 };
 
+
 agregaCardProductoCarritoHtml();

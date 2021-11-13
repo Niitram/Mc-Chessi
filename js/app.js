@@ -493,7 +493,7 @@ window.onload = function () {
     }
 
     //si el documento que se carga tiene es el index
-    if (document.location.pathname === "/index.html" || document.location.pathname === "/Mc-Chessi/") {
+    if (document.location.pathname === "/index.html" || document.location.pathname === "/Mc-Chessi/" || document.location.pathname === "/Mc-Chessi/index.html") {
         //Se cargan las cards en el html
         agregarCardsProductolIndex()
         document
