@@ -4,7 +4,7 @@ const $btnAgregarCarrito = document.getElementsByClassName("btnAgregarCarrito");
 const carrito = {}
 class Producto {
     constructor(nombre, precio, id, stock, img, cantidad) {
-        this.nombre = nombre.toUpperCase();
+        this.nombre = nombre;
         this.precio = precio;
         this.id = id;
         this.stock = stock;
@@ -72,34 +72,6 @@ const crearContadorCarrito = () => {
     }
 
 }
-//funcion para agregar cards en el html
-const agregarCardsProductolIndex = () => {
-    productos.forEach((element) => {
-        const $cardProducto = document.createElement("div");
-        $cardProducto.id = element.id;
-        $cardProducto.className = "col-12 col-md-6 col-lg-4 col-xl-3 my-3";
-        $cardProducto.innerHTML += `
-                        <div class="card" style="width: 18rem;">
-                            <img src="img/${element.img}" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <p class="card-text">${element.nombre}</p>
-                                <span>$<span class="precioCard">${element.precio}</span></span>
-                            </div>
-                            <div class="d-flex justify-content-center my-2">
-                                <button type="button" id="${element.id}" class="btn btn-primary btnAgregarCarrito">Agregar al
-                                    carrito</button>
-                            </div>
-                        </div>
-        `;
-        document.getElementById("contenedorProductos").appendChild($cardProducto);
-        document.getElementById(element.id).addEventListener("click", (e) => {
-            if (e.target.className == "btn btn-primary btnAgregarCarrito") {
-                AgregarAlCarrito(e)
-            }
-            e.stopPropagation();
-        })
-    });
-};
 
 
 
@@ -188,6 +160,55 @@ const eliminarUsuarioActual = () => {
     localStorage.removeItem("usuarioActual");
 }
 
+/* Desafio clase 13 */
+/* crear un elemento en el medio de la pantalla con el gif y que diga
+"Creando usuario" y que al terminar el gif se borre y diga usuario creado*/
+
+//Animacion creando usuario
+const creandoUsuarioEmergente = () => {
+    $('body').prepend(`
+        <div class="contenedorUsuarioEmergente" style="display:none">
+            <div class="ventana-emergente">
+                <div class="text-center bg-dark color-goldenrod fs-3  w-100">
+                    <span>Creando usuario</span>
+                </div>
+                <div>
+                    <img src="img/creando-usuario-cocinando.gif" alt="gif de comida cocinando">
+                </div>
+            </div> 
+        </div>
+    `)
+}
+//Alerta de usuario creado
+const alertaUsuarioCreado = () => {
+    setTimeout(() => {
+        $('body header').append(`
+            <div id="usuarioCradoAlert" class="alert mb-0 alert-success d-flex justify-content-center align-items-center" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                    </symbol>
+                </svg>
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
+                    <use xlink:href="#info-fill" />
+                </svg>
+                <div>
+                Usuario creado con exito
+                </div>
+            </div>
+        `);
+        $("#usuarioCradoAlert").slideToggle(4000);
+    }, 3000);
+    setTimeout(() => {
+        $("#usuarioCradoAlert").remove();
+    }, 7000)
+}
+//Animacion de creacion de usuario emergente
+const animacionEmergente = (elemento) => {
+    $(`${elemento}`).fadeIn(1000).delay(2000).fadeOut(1000)
+}
+
+
 const saludarUsuario = () => {
     let usuarioActual = capturarClienteActual();
     alert(`Bienvenido ${usuarioActual.nombre}`);
@@ -258,7 +279,9 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
         nombreUsuario = new Usuario(nombreUsuario, password, [1], [], 0);
         clientesStorage.push(nombreUsuario);
         localStorage.setItem("Clientes", JSON.stringify(clientesStorage));
-        alert(`Usuario ${nombreUsuario.nombre} creado con exito`)
+        creandoUsuarioEmergente()
+        animacionEmergente('.contenedorUsuarioEmergente')
+        alertaUsuarioCreado()
         agregarNombreUsuarioNavBar(nombreUsuario.nombre)
         crearUsuarioActual(nombreUsuario);
         document.getElementById("btnCerrarcanvas").click();
@@ -281,7 +304,9 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
             nombreUsuario = new Usuario(nombreUsuario, password, [1], [], 0);
             clientesStorage.push(nombreUsuario);
             localStorage.setItem("Clientes", JSON.stringify(clientesStorage));
-            alert(`Usuario ${nombreUsuario.nombre} creado con exito`);
+            creandoUsuarioEmergente()
+            animacionEmergente('.contenedorUsuarioEmergente')
+            alertaUsuarioCreado()
             agregarNombreUsuarioNavBar(nombreUsuario.nombre);
             crearUsuarioActual(nombreUsuario);
             document.getElementById("btnCerrarcanvas").click();
@@ -292,6 +317,8 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
         }
     }
 };
+
+
 
 //Agrega en el navBar el nombre del usuario y le pone la clase con color color
 const agregarNombreUsuarioNavBar = (nombreUsuario) => {
@@ -494,8 +521,7 @@ window.onload = function () {
 
     //si el documento que se carga tiene es el index
     if (document.location.pathname === "/index.html" || document.location.pathname === "/Mc-Chessi/" || document.location.pathname === "/Mc-Chessi/index.html") {
-        //Se cargan las cards en el html
-        agregarCardsProductolIndex()
+
         document
             .querySelector("#Ordenarmayor")
             .addEventListener("click", ordenarProductosMayorPrecio);

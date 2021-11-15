@@ -4,46 +4,76 @@
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+* {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 /* Navbar */
-.header__logo{
-    width: 100px;
-    height: 50px;
-    img{
-        width: 100%;
-        object-fit: contain;
-    }
+.header__logo {
+  width: 100px;
+  height: 50px;
+  img {
+    width: 100%;
+    object-fit: contain;
+  }
 }
 .nav-link,
-.nav-link.active{
-    color: $honey-yellow !important; 
+.nav-link.active {
+  color: $honey-yellow !important;
 }
-.nav-link.disabled{
-    color: gray !important;
+.nav-link.disabled {
+  color: gray !important;
 }
-.navbar-toggler{
+.navbar-toggler {
+  color: $honey-yellow;
+  span {
+    border-radius: 20%;
+    background-color: $honey-yellow;
     color: $honey-yellow;
-    span{
-        border-radius: 20%;
-        background-color: $honey-yellow;
-        color: $honey-yellow;
-    }
+  }
 }
 /* cantidad del carrito */
-.carritoNavbar{
-    display: inline-block;
-    width: 1.4rem;
-    border-radius: 50%;
-    background-color: red;
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: center;
-    color: white;
-    
+.carritoNavbar {
+  display: inline-block;
+  width: 1.4rem;
+  border-radius: 50%;
+  background-color: red;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  color: white;
 }
 /* fin navbar */
+
+/* ventana emergente */
+
+.contenedorUsuarioEmergente {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ventana-emergente {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  z-index: 999999;
+  img {
+    width: 100%;
+    object-fit: contain;
+  }
+}

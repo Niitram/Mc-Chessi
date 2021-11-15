@@ -1,0 +1,69 @@
+{
+    "Hamburguesa con queso":[
+        "Carne vacuna",
+        "Cebolla",
+        "Ajo",
+        "Pimiento rojo",
+        "Mostaza",
+        "Pepinillos agridulces",
+        "Lechuga",
+        "Queso Cheddar",
+        "Tomate",
+        "Pan especial",
+        "Sal"
+    ],
+    "Porcion papas fritas":[
+        "Papas",
+        "Cebolla",
+        "Ajo",
+        "Pimiento rojo",
+        "Mostaza",
+        "Pepinillos agridulces",
+        "Lechuga",
+        "Queso Cheddar",
+        "Tomate",
+        "Sal"
+    ],
+    "Ensalada cesar":[
+        "Lechuga tipo romana",
+        "Queso Parmesano",
+        "Vinagre de manzana",
+        "Salsa Perrins",
+        "Aceite de oliva virgen extra",
+        "Zumo de limón",
+        "Picatostes (pan en tacos frito o asado en el horno)",
+        "Yema de huevo",
+        "Sal"
+        ],
+    "Hamburguesa vegana":[
+        "soja texturizada fina",
+        "puerro mediano rallado",
+        "salsa de soja",
+        "avena en copos",
+        "Mostaza",
+        "Pepinillos agridulces",
+        "Lechuga",
+        "Queso Cheddar",
+        "Tomate",
+        "Pan especial",
+        "Lechuga tipo romana",
+        "Yema de huevo",
+        "Sal"
+        ],
+    "Hamburguesa con queso vegetariana":[
+        "copos de avena",
+        "ajo",
+        "cebolla",
+        "tomate",
+        "tomates secos",
+        "nueces",
+        "semillas de girasol",
+        "perejil picado",
+        "semillas de sésamo",
+        "lechuga",
+        "queso Cheddar",
+        "pan especial",
+        "huevo",
+        "sal"
+    ]
+}
