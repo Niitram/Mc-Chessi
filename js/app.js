@@ -174,7 +174,7 @@ const creandoUsuarioEmergente = () => {
                     <span>Creando usuario</span>
                 </div>
                 <div>
-                    <img src="../img/creando-usuario-cocinando.gif" alt="gif de comida cocinando">
+                    <img src="img/creando-usuario-cocinando.gif" alt="gif de comida cocinando">
                 </div>
             </div> 
         </div>
@@ -215,7 +215,7 @@ const loginUsuarioEmergente = () => {
                     <span>Conectando con su usuario</span>
                 </div>
                 <div>
-                    <img src="../img/login-usuario-hamburguesa.gif" alt="gif de hamburguesa con persona rebotando encima">
+                    <img src="img/login-usuario-hamburguesa.gif" alt="gif de hamburguesa con persona rebotando encima">
                 </div>
             </div> 
         </div>
