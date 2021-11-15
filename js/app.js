@@ -165,15 +165,16 @@ const eliminarUsuarioActual = () => {
 "Creando usuario" y que al terminar el gif se borre y diga usuario creado*/
 
 //Animacion creando usuario
+//Crea el html con el gif
 const creandoUsuarioEmergente = () => {
     $('body').prepend(`
-        <div class="contenedorUsuarioEmergente" style="display:none">
+        <div id="creandoUsuarioEmergente" class="contenedorUsuarioEmergente" style="display:none">
             <div class="ventana-emergente">
                 <div class="text-center bg-dark color-goldenrod fs-3  w-100">
                     <span>Creando usuario</span>
                 </div>
                 <div>
-                    <img src="img/creando-usuario-cocinando.gif" alt="gif de comida cocinando">
+                    <img src="../img/creando-usuario-cocinando.gif" alt="gif de comida cocinando">
                 </div>
             </div> 
         </div>
@@ -202,6 +203,23 @@ const alertaUsuarioCreado = () => {
     setTimeout(() => {
         $("#usuarioCradoAlert").remove();
     }, 7000)
+}
+
+//Animacion Login usuario
+//Crea el html con el gif login usuario
+const loginUsuarioEmergente = () => {
+    $('body').prepend(`
+        <div id="loginUsuarioEmergente" class="contenedorUsuarioEmergente" style="display:none">
+            <div class="ventana-emergente">
+                <div class="text-center bg-dark color-goldenrod fs-3  w-100">
+                    <span>Conectando con su usuario</span>
+                </div>
+                <div>
+                    <img src="../img/login-usuario-hamburguesa.gif" alt="gif de hamburguesa con persona rebotando encima">
+                </div>
+            </div> 
+        </div>
+    `)
 }
 //Animacion de creacion de usuario emergente
 const animacionEmergente = (elemento) => {
@@ -280,7 +298,7 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
         clientesStorage.push(nombreUsuario);
         localStorage.setItem("Clientes", JSON.stringify(clientesStorage));
         creandoUsuarioEmergente()
-        animacionEmergente('.contenedorUsuarioEmergente')
+        animacionEmergente('#creandoUsuarioEmergente')
         alertaUsuarioCreado()
         agregarNombreUsuarioNavBar(nombreUsuario.nombre)
         crearUsuarioActual(nombreUsuario);
@@ -305,7 +323,7 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
             clientesStorage.push(nombreUsuario);
             localStorage.setItem("Clientes", JSON.stringify(clientesStorage));
             creandoUsuarioEmergente()
-            animacionEmergente('.contenedorUsuarioEmergente')
+            animacionEmergente('#creandoUsuarioEmergente')
             alertaUsuarioCreado()
             agregarNombreUsuarioNavBar(nombreUsuario.nombre);
             crearUsuarioActual(nombreUsuario);
@@ -382,17 +400,9 @@ const alertUsuarioExistente = () => {
     let contenedor = document.getElementById("offcanvasTop1");
     contenedor.appendChild(alertIngresar);
 };
-
-//logica Login
-const login = (nombreUsuario, password) => {
-    let fueEncontrado = false;
-    let clientesStorage = JSON.parse(localStorage.getItem("Clientes"));
-    clientesStorage.forEach((element) => {
-        if (element.nombre == nombreUsuario && element.password == password) {
-            fueEncontrado = true;
-            agregarNombreUsuarioNavBar(element.nombre);
-            //desafio clase 12
-            $('body header').append(`
+//funcion alerta el usuario fue creado con exito
+const alertaBienvenidaUsuario = (usuario) => {
+    $('body header').append(`
             <div id="bienvenidaUsuario" class="alert mb-0 alert-success d-flex justify-content-center align-items-center" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                     <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -404,14 +414,26 @@ const login = (nombreUsuario, password) => {
                     <use xlink:href="#info-fill" />
                 </svg>
                 <div>
-                Bienvenid@ ${nombreUsuario}
+                Bienvenid@ ${usuario}
                 </div>
             </div>
             `);
+}
+
+//logica Login
+const login = (nombreUsuario, password) => {
+    let fueEncontrado = false;
+    let clientesStorage = JSON.parse(localStorage.getItem("Clientes"));
+    clientesStorage.forEach((element) => {
+        if (element.nombre == nombreUsuario && element.password == password) {
+            fueEncontrado = true;
+            agregarNombreUsuarioNavBar(element.nombre);
+            alertaBienvenidaUsuario(nombreUsuario)
             crearBtnsUsuarioNavBar()
             agregarNombreUsuarioNavBar(nombreUsuario)
             crearUsuarioActual(element)
-
+            loginUsuarioEmergente()
+            animacionEmergente('#loginUsuarioEmergente')
             //Si no se cerro el alert previamente lo cierra con el btn cerrar
             if (document.getElementById("btnCerrarAlertIngresarUsuario") != null) {
                 document.getElementById("btnCerrarAlertIngresarUsuario").click();
