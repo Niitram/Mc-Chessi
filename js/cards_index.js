@@ -5,10 +5,14 @@ const agregarCardsProductolIndex = () => {
         $cardProducto.id = element.id;
         $cardProducto.className = "col-12 col-md-6 col-lg-4 col-xl-3 my-3";
         $cardProducto.innerHTML += `
-                        <div class="card" style="width: 18rem;">
-                            <img src="img/${element.img}" class="card-img-top" alt="...">
+                        <div class="card" id="${element.id}" style="width: 18rem;">
+                            <img src="img/${element.img}" class="card-img-top" alt="${element.nombre}">
                             <div class="card-body">
                                 <p class="card-text">${element.nombre}</p>
+                                <span>Ingredientes</span>
+                                <button class="verIngredientes btn btn-outline-dark fw-bold ms-5">Ver más</button>
+                                <ul id="listaIngredientes${element.id}">
+                                </ul>
                                 <span>$<span class="precioCard">${element.precio}</span></span>
                             </div>
                             <div class="d-flex justify-content-center my-2">
@@ -30,55 +34,75 @@ const agregarCardsProductolIndex = () => {
 //Verifica si el nombre ingresado esta en ingredientes.Json y devuelve true o false en dicho caso
 const esNombreProducto = async (producto) => {
     const url = "../json/ingredientes.json";
-    $.get(url, (respuesta) => {
+    await $.getJSON(url, (respuesta) => {
         respuesta;
         let productos = Object.keys(respuesta)
         productos.forEach((element) => {
             if (element === producto) {
+                console.log(element)
                 return element
-            }
-            else {
-                return alert("El producto no existe")
             }
         })
     });
 }
+
 //captura los ingredientes de ingredientes.JSON y los retorna en un arreglo
-const obtenerIngredientes = (producto) => {
+const obtenerIngredientes = async (producto) => {
     const ingredientesProducto = [];
     const url = "../json/ingredientes.json";
-    $.get(url, (respuesta) => {
+    await $.getJSON(url, (respuesta) => {
         respuesta;
-        for (const [productos, ingrediente] of Object.entries(respuesta)) {
-            /* console.log("key: ", producto)
-            console.log("ingrediente: ", ingrediente) */
+        for (const [productos, ingredientes] of Object.entries(respuesta)) {
             if (productos === producto) {
-                ingredientesProducto.push(ingrediente);
+                ingredientesProducto.push(ingredientes);
             }
         }
-    });
-    return ingredientesProducto;
+    })
+    return ingredientesProducto
 }
+
 //Funcion que dibuja en el html los ingredientes segun el producto
-const dibujarIngredientes = (ingrediente) => {
-    $("listaIngredientes").append(`<li>${ingrediente}</li>`);
+const modeloListaIngredientes = (ingrediente, id) => {
+    $(`#listaIngredientes${id}`).append(`<li class="my-1 border-bottom-gray-1"><i class="far fa-check-circle color-goldenrod"></i> ${ingrediente}</li>`);
 }
-//funcion ayncronica para pedir nombre del producto y llamar a la funcion que dibuja los ingredientes
-const pedirNombreProducto = async (e) => {
-    const nombreProductoCard = e.target.previousSibling.previousSibling.previousSibling.previousSibling.textContent
-    const nombreProducto = await esNombreProducto(nombreProductoCard);
-    if (nombreProductoCard === nombreProducto) {
-        console.log("Hola")
-    }
+//funcion para pedir nombre del producto y llamar a la funcion que dibuja los ingredientes
+const pedirNombreProducto = (e) => {
+    return e.target.parentNode.parentNode.childNodes[3].childNodes[1].textContent
 }
-//se agre el evento click a los bonotes de las cards para ver ingredientes
-$(".verIngredientes").on("click", (e) => {
-    debugger
-    pedirNombreProducto(e)
-})
+//funcion que recupera el id de la card
+const obtenerIdCard = (e) => {
+    return e.target.parentNode.parentNode.id
+}
 
-//Se cargan las cards en el html
-agregarCardsProductolIndex()
+//Dibuja en el html los ingredientes en una lista
+const dibujarIngredientes = (nombreProductoCard, id) => {
+    obtenerIngredientes(nombreProductoCard).then(ingredientes => {
+        ingredientes[0].forEach(element => {
+            modeloListaIngredientes(element, id)
+        })
+    });
+}
 
+
+
+window.onload = function () {
+    //Se cargan las cards en el html
+    agregarCardsProductolIndex()
+
+    //Se agrega el evento click a los bonotes de las cards para ver ingredientes
+    $(".verIngredientes").on("click", (e) => {
+        const nombreProducto = pedirNombreProducto(e)
+        const idCard = obtenerIdCard(e)
+        console.log("en el evento click")
+        //Si los <li> ya estan dibujados se les aplica slideToggle para que se oculten
+        if (e.target.nextElementSibling.childNodes.length > 1) {
+            console.log("en el evento if")
+            $(`#listaIngredientes${idCard}`).slideToggle();
+        } else {
+            console.log("en el else")
+            dibujarIngredientes(nombreProducto, idCard)
+        }
+    })
+};
 
 

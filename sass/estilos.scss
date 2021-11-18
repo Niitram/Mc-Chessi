@@ -10,6 +10,10 @@
   margin: 0;
   box-sizing: border-box;
 }
+/* Reutilizable */
+.border-bottom-gray-1 {
+  border-bottom: 1px solid #706e6ebb;
+}
 
 /* Navbar */
 .header__logo {

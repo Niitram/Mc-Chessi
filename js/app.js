@@ -1,6 +1,5 @@
 /* captura de los elementos del dom */
 const $carritoNavbar = document.getElementById("carritoNavbar");
-const $btnAgregarCarrito = document.getElementsByClassName("btnAgregarCarrito");
 const carrito = {}
 class Producto {
     constructor(nombre, precio, id, stock, img, cantidad) {
@@ -15,8 +14,22 @@ class Producto {
 //Creacion de los productos
 const papasFritas = new Producto("Porcion de papas fritas", 450, "1", 50, "papas-fritas.jpg", 0);
 const hamburguesaConQueso = new Producto("Hamburguesa con queso", 600, "2", 50, "hamburguesa-con-queso.png", 0);
-const ensaladaCesar = new Producto("Ensalada Cesar", 150, "3", 50, "ensalada-Cesar.jpg", 0);
+const ensaladaCesar = new Producto("Ensalada cesar", 150, "3", 50, "ensalada-Cesar.jpg", 0);
 const botellaDeAgua = new Producto("Botella de agua", 100, "4", 50, "botella-de-agua.jpg", 0);
+const hamburguesaConQuesoVegetariana = new Producto("Hamburguesa con queso vegetariana", 500, "5", 50, "hamburguesa-con-queso-vegetariana.jpg", 0);
+const hamburguesaVegana = new Producto("Hamburguesa vegana", 500, "6", 50, "hamburguesa-vegana.jpg", 0);
+
+class Bebidas {
+    constructor(nombre, precio, id, stock, img, cantidad) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.id = id;
+        this.stock = stock;
+        this.img = img;
+        this.cantidad = cantidad;
+    }
+}
+
 
 //Array con todos los productos
 const productos = [
@@ -24,6 +37,8 @@ const productos = [
     hamburguesaConQueso,
     ensaladaCesar,
     botellaDeAgua,
+    hamburguesaConQuesoVegetariana,
+    hamburguesaVegana
 ];
 
 //Funcion ordenar productos por menor precio
@@ -540,10 +555,8 @@ window.onload = function () {
     } else {
         alertIngresarUsuario();
     }
-
     //si el documento que se carga tiene es el index
     if (document.location.pathname === "/index.html" || document.location.pathname === "/Mc-Chessi/" || document.location.pathname === "/Mc-Chessi/index.html") {
-
         document
             .querySelector("#Ordenarmayor")
             .addEventListener("click", ordenarProductosMayorPrecio);
