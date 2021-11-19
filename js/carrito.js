@@ -4,7 +4,6 @@ const agregaCardProductoCarritoHtml = () => {
     let clienteActual = capturarClienteActual();
     console.log(clienteActual);
     for (const [key, value] of Object.entries(clienteActual.carritoCliente)) {
-        console.log(`value`, value.img);
         $("#contenedorCarrito").prepend(`
         <div class="cardProductoCarrito d-flex flex-wrap align-items-center justify-content-evenly p-4 my-2">
             <div class="contenedorCarrito__img">
@@ -24,12 +23,19 @@ const agregaCardProductoCarritoHtml = () => {
                 <button id="btnSumarProducto" class="btnSumarCarrito"><i class="fas fa-plus-circle"></i></button>
             </div>
             <div class="my-2">
-                <span>$169</span>
+                <span>$${value.sumaProductos}</span>
             </div>
         </div>
         `);
     }
 };
 
+//funcion para mostrar la suma total de los productos en el carrito
+const dibujarSumaTotalCarrito = () => {
+    let clienteActual = capturarClienteActual();
+    console.log("Entre", clienteActual)
+    $("#totalCarrito").text(clienteActual.sumaTotalCarrito);
+}
 
 agregaCardProductoCarritoHtml();
+dibujarSumaTotalCarrito();

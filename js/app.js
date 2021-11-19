@@ -15,11 +15,19 @@ class Producto {
 const papasFritas = new Producto("Porcion de papas fritas", 450, "1", 50, "papas-fritas.jpg", 0);
 const hamburguesaConQueso = new Producto("Hamburguesa con queso", 600, "2", 50, "hamburguesa-con-queso.png", 0);
 const ensaladaCesar = new Producto("Ensalada cesar", 150, "3", 50, "ensalada-Cesar.jpg", 0);
-const botellaDeAgua = new Producto("Botella de agua", 100, "4", 50, "botella-de-agua.jpg", 0);
-const hamburguesaConQuesoVegetariana = new Producto("Hamburguesa con queso vegetariana", 500, "5", 50, "hamburguesa-con-queso-vegetariana.jpg", 0);
-const hamburguesaVegana = new Producto("Hamburguesa vegana", 500, "6", 50, "hamburguesa-vegana.jpg", 0);
+const hamburguesaConQuesoVegetariana = new Producto("Hamburguesa con queso vegetariana", 500, "4", 50, "hamburguesa-con-queso-vegetariana.jpg", 0);
+const hamburguesaVegana = new Producto("Hamburguesa vegana", 500, "5", 50, "hamburguesa-vegana.jpg", 0);
 
-class Bebidas {
+//Array con todos los productos
+const productos = [
+    papasFritas,
+    hamburguesaConQueso,
+    ensaladaCesar,
+    hamburguesaConQuesoVegetariana,
+    hamburguesaVegana
+];
+
+class Bebida {
     constructor(nombre, precio, id, stock, img, cantidad) {
         this.nombre = nombre;
         this.precio = precio;
@@ -30,16 +38,9 @@ class Bebidas {
     }
 }
 
+const botellaDeAgua = new Bebida("Botella de agua", 100, "4", 50, "botella-de-agua.jpg", 0);
 
-//Array con todos los productos
-const productos = [
-    papasFritas,
-    hamburguesaConQueso,
-    ensaladaCesar,
-    botellaDeAgua,
-    hamburguesaConQuesoVegetariana,
-    hamburguesaVegana
-];
+
 
 //Funcion ordenar productos por menor precio
 const ordenarProductosMenorPrecio = () => {
@@ -88,6 +89,19 @@ const crearContadorCarrito = () => {
 
 }
 
+//Suma el total de los productos en el carrito
+const sumaTotalCarrito = () => {
+    const usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
+    console.log(usuarioActual.carritoCliente);
+    let sumaTotal = 0;
+    for (const [productos, producto] of Object.entries(usuarioActual.carritoCliente)) {
+        sumaTotal = producto.sumaProductos + sumaTotal;
+    }
+    console.log("carrito cliente: ", usuarioActual.carritoCliente);
+    console.log("la cuenta total: ", usuarioActual.cuentaTotal);
+    usuarioActual.cuentaTotal = parseInt(sumaTotal);
+    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+}
 
 
 //funcion que captura el elemento seleccionado en este caso la card
@@ -97,10 +111,14 @@ const agarrarProductoElegido = (e) => {
         nombre: e.querySelector(".card-text").textContent,
         precio: parseInt(e.querySelector(".precioCard").textContent),
         cantidad: 1,
-        img: e.querySelector("img").src
+        img: e.querySelector("img").src,
+        sumaProductos: parseInt(e.querySelector(".precioCard").textContent)
     }
     if (carrito.hasOwnProperty(productoElegido.id)) {
+        //Se aumenta la cantidad del producto en 1
         productoElegido.cantidad = 1 + carrito[productoElegido.id].cantidad;
+        //Se suman el precio de los productos
+        productoElegido.sumaProductos = productoElegido.cantidad * productoElegido.precio;
     }
     carrito[productoElegido.id] = { ...productoElegido };
     let clienteActual = capturarClienteActual();
@@ -108,6 +126,8 @@ const agarrarProductoElegido = (e) => {
     console.log(clienteActual);
     localStorage.setItem("usuarioActual", JSON.stringify(clienteActual));
     crearContadorCarrito()
+    let suma = sumaTotalCarrito()
+    console.log(suma)
 }
 
 
@@ -174,10 +194,6 @@ const capturarClienteActual = () => {
 const eliminarUsuarioActual = () => {
     localStorage.removeItem("usuarioActual");
 }
-
-/* Desafio clase 13 */
-/* crear un elemento en el medio de la pantalla con el gif y que diga
-"Creando usuario" y que al terminar el gif se borre y diga usuario creado*/
 
 //Animacion creando usuario
 //Crea el html con el gif
@@ -351,9 +367,7 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
     }
 };
 
-
-
-//Agrega en el navBar el nombre del usuario y le pone la clase con color color
+//Agrega en el navBar el nombre del usuario y le pone la clase con color
 const agregarNombreUsuarioNavBar = (nombreUsuario) => {
     if ($(".usuarioNavBar span")) {
         $(".usuarioNavBar span").remove()
@@ -481,7 +495,6 @@ const login = (nombreUsuario, password) => {
         return
     }
 }
-
 
 // se captura el usuario ingresado en los inputs "Ingresar" y se hace login
 document.querySelector("#btnIngresarUsuario").addEventListener("click", (e) => {

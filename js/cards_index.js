@@ -45,7 +45,7 @@ const esNombreProducto = async (producto) => {
         })
     });
 }
-
+// Desafio clase 14 AJAX con jQuery
 //captura los ingredientes de ingredientes.JSON y los retorna en un arreglo
 const obtenerIngredientes = async (producto) => {
     const ingredientesProducto = [];
@@ -91,15 +91,13 @@ window.onload = function () {
 
     //Se agrega el evento click a los bonotes de las cards para ver ingredientes
     $(".verIngredientes").on("click", (e) => {
+        e.stopPropagation();
         const nombreProducto = pedirNombreProducto(e)
         const idCard = obtenerIdCard(e)
-        console.log("en el evento click")
         //Si los <li> ya estan dibujados se les aplica slideToggle para que se oculten
         if (e.target.nextElementSibling.childNodes.length > 1) {
-            console.log("en el evento if")
             $(`#listaIngredientes${idCard}`).slideToggle();
         } else {
-            console.log("en el else")
             dibujarIngredientes(nombreProducto, idCard)
         }
     })
