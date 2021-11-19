@@ -32,9 +32,9 @@ const agregaCardProductoCarritoHtml = () => {
 
 //funcion para mostrar la suma total de los productos en el carrito
 const dibujarSumaTotalCarrito = () => {
-    let clienteActual = capturarClienteActual();
-    console.log("Entre", clienteActual)
-    $("#totalCarrito").text(clienteActual.sumaTotalCarrito);
+    let usuarioActual = capturarClienteActual();
+    console.log("Entre", usuarioActual)
+    $("#totalCarrito").text(usuarioActual.cuentaTotal);
 }
 
 agregaCardProductoCarritoHtml();

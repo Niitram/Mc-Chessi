@@ -90,17 +90,12 @@ const crearContadorCarrito = () => {
 }
 
 //Suma el total de los productos en el carrito
-const sumaTotalCarrito = () => {
-    const usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
-    console.log(usuarioActual.carritoCliente);
+const sumaTotalCarrito = (usuarioActual) => {
     let sumaTotal = 0;
     for (const [productos, producto] of Object.entries(usuarioActual.carritoCliente)) {
         sumaTotal = producto.sumaProductos + sumaTotal;
     }
-    console.log("carrito cliente: ", usuarioActual.carritoCliente);
-    console.log("la cuenta total: ", usuarioActual.cuentaTotal);
-    usuarioActual.cuentaTotal = parseInt(sumaTotal);
-    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+    return sumaTotal;
 }
 
 
@@ -117,17 +112,17 @@ const agarrarProductoElegido = (e) => {
     if (carrito.hasOwnProperty(productoElegido.id)) {
         //Se aumenta la cantidad del producto en 1
         productoElegido.cantidad = 1 + carrito[productoElegido.id].cantidad;
-        //Se suman el precio de los productos
-        productoElegido.sumaProductos = productoElegido.cantidad * productoElegido.precio;
     }
+    //Se suman el precio de los productos por la canntidad del mismo producto
+    productoElegido.sumaProductos = productoElegido.cantidad * productoElegido.precio;
     carrito[productoElegido.id] = { ...productoElegido };
-    let clienteActual = capturarClienteActual();
-    clienteActual.carritoCliente = carrito
-    console.log(clienteActual);
-    localStorage.setItem("usuarioActual", JSON.stringify(clienteActual));
+    let usuarioActual = capturarClienteActual();
+    usuarioActual.carritoCliente = carrito
+    //Se suma el total del carrito
+    usuarioActual.cuentaTotal = sumaTotalCarrito(usuarioActual);
+    console.log(usuarioActual);
+    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
     crearContadorCarrito()
-    let suma = sumaTotalCarrito()
-    console.log(suma)
 }
 
 
