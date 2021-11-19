@@ -70,12 +70,21 @@ const AgregarAlCarrito = (e) => {
 
 //dibuja en el DOM la cantidad del carrito
 const crearContadorCarrito = () => {
-    let contador = 0;
-    let carritoSumando = Object.keys(carrito)
-    carritoSumando.forEach((elemento) => {
-        contador += carrito[elemento].cantidad;
-    })
-    if (contador > 0) {
+    const usuarioActual = capturarClienteActual();
+    if (usuarioActual.cantidadProductos <= 0) {
+        usuarioActual.cantidadProductos = usuarioActual.cantidadProductos + 1
+        console.log("Enttro")
+        console.log("Enttro", usuarioActual.cantidadProductos)
+    } else {
+        for (const [key, producto] of Object.entries(usuarioActual.carritoCliente)) {
+            usuarioActual.cantidadProductos = parseInt(usuarioActual.cantidadProductos) + parseInt(producto.cantidad);
+            console.log("En el for")
+            /* contador += carrito[elemento].cantidad; */
+        }
+    }
+
+    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual))
+    /* if (contador > 0) {
         let spanContador = document.createElement("span");
         if (contador > 1) {
             document.getElementById('cantidadCarritoNavbar').innerHTML = `<span id="carritoNavbar" class="carritoNavbar">${contador}</span>`;
@@ -85,7 +94,7 @@ const crearContadorCarrito = () => {
             `;
             $carritoNavbar.appendChild(spanContador);
         }
-    }
+    } */
 
 }
 
@@ -99,8 +108,10 @@ const sumaTotalCarrito = (usuarioActual) => {
 }
 
 
-//funcion que captura el elemento seleccionado en este caso la card
+//funcion que captura el elemento seleccionado en este caso la card y sumar la cantidad y el producto
 const agarrarProductoElegido = (e) => {
+    let usuarioActual = capturarClienteActual();
+    console.log(usuarioActual)
     const productoElegido = {
         id: e.id,
         nombre: e.querySelector(".card-text").textContent,
@@ -116,7 +127,6 @@ const agarrarProductoElegido = (e) => {
     //Se suman el precio de los productos por la canntidad del mismo producto
     productoElegido.sumaProductos = productoElegido.cantidad * productoElegido.precio;
     carrito[productoElegido.id] = { ...productoElegido };
-    let usuarioActual = capturarClienteActual();
     usuarioActual.carritoCliente = carrito
     //Se suma el total del carrito
     usuarioActual.cuentaTotal = sumaTotalCarrito(usuarioActual);
@@ -130,12 +140,13 @@ const agarrarProductoElegido = (e) => {
 
 //Creacion de la clase usuario
 class Usuario {
-    constructor(nombre, password, pedidoNumero, carritoCliente, cuentaTotal) {
+    constructor(nombre, password, pedidoNumero, carritoCliente, cuentaTotal, cantidadProductos) {
         this.nombre = nombre;
         this.password = password;
         this.pedidoNumero = pedidoNumero;
         this.carritoCliente = carritoCliente;
         this.cuentaTotal = cuentaTotal;
+        this.cantidadProductos = parseInt(cantidadProductos);
     }
     pedirProducto() {
         let numeroIngresado = parseInt(
@@ -320,7 +331,7 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
         const clientes = [];
         localStorage.setItem("Clientes", JSON.stringify(clientes));
         clientesStorage = JSON.parse(localStorage.getItem("Clientes"));
-        nombreUsuario = new Usuario(nombreUsuario, password, [1], [], 0);
+        nombreUsuario = new Usuario(nombreUsuario, password, [1], [], 0, 0);
         clientesStorage.push(nombreUsuario);
         localStorage.setItem("Clientes", JSON.stringify(clientesStorage));
         creandoUsuarioEmergente()
@@ -345,7 +356,7 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
         }
         /* Si el cliente no esta ingresado con ese nombre crea un Usuario nuevo */
         if (!fueEncontrado) {
-            nombreUsuario = new Usuario(nombreUsuario, password, [1], [], 0);
+            nombreUsuario = new Usuario(nombreUsuario, password, [1], [], 0, 0);
             clientesStorage.push(nombreUsuario);
             localStorage.setItem("Clientes", JSON.stringify(clientesStorage));
             creandoUsuarioEmergente()
