@@ -67,35 +67,51 @@ const AgregarAlCarrito = (e) => {
     }
     e.stopPropagation();
 };
-
+//Sumar producto al carrito
+const sumarUnProductoCarrito = () => {
+    const usuarioActual = capturarClienteActual();
+    usuarioActual.cantidadProductos++;
+    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+    crearContadorCarrito()
+}
 //dibuja en el DOM la cantidad del carrito
 const crearContadorCarrito = () => {
     const usuarioActual = capturarClienteActual();
-    if (usuarioActual.cantidadProductos <= 0) {
-        usuarioActual.cantidadProductos = usuarioActual.cantidadProductos + 1
-        console.log("Enttro")
-        console.log("Enttro", usuarioActual.cantidadProductos)
-    } else {
-        for (const [key, producto] of Object.entries(usuarioActual.carritoCliente)) {
-            usuarioActual.cantidadProductos = parseInt(usuarioActual.cantidadProductos) + parseInt(producto.cantidad);
-            console.log("En el for")
-            /* contador += carrito[elemento].cantidad; */
-        }
+    if (usuarioActual.cantidadProductos > 1) {
+        $("#contadorCarritoNavbar").remove();
+        $('#carritoNavbar').append(`<span id="contadorCarritoNavbar" class="carritoNavbar">${usuarioActual.cantidadProductos}</span>`)
     }
+}
 
-    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual))
-    /* if (contador > 0) {
-        let spanContador = document.createElement("span");
-        if (contador > 1) {
-            document.getElementById('cantidadCarritoNavbar').innerHTML = `<span id="carritoNavbar" class="carritoNavbar">${contador}</span>`;
-        } else {
-            spanContador.innerHTML = `
-                <span id="cantidadCarritoNavbar" class="carritoNavbar">${contador}</span>
-            `;
-            $carritoNavbar.appendChild(spanContador);
+//Suma cantidad del mismo producto
+const aumentaCantidadMismoProducto = (usuario, id) => {
+    let encontrado = false;
+    const carritoValues = Object.values(usuario.carritoCliente);
+    carritoValues.forEach(producto => {
+        if (producto.id === id) {
+            producto.cantidad = producto.cantidad + 1;
+            encontrado = true
         }
-    } */
+    })
+    return encontrado;
+}
 
+//Calcula suma total del los mismos productos
+const sumaTotalMismoProducto = (usuarioActual, id) => {
+    const carritoValues = Object.values(usuarioActual.carritoCliente);
+    carritoValues.forEach(producto => {
+        if (producto.id === id) {
+            producto.sumaProductos = producto.precio * producto.cantidad;
+        }
+    })
+
+}
+
+//Agrega producto nuevo al carrito
+const agregarProductoNuevoCarrito = (usuarioActual, productoCapturado) => {
+    const carritoValues = Object.values(usuarioActual.carritoCliente);
+    carritoValues.push(productoCapturado);
+    usuarioActual.carritoCliente = carritoValues;
 }
 
 //Suma el total de los productos en el carrito
@@ -108,33 +124,46 @@ const sumaTotalCarrito = (usuarioActual) => {
 }
 
 
-//funcion que captura el elemento seleccionado en este caso la card y sumar la cantidad y el producto
-const agarrarProductoElegido = (e) => {
-    let usuarioActual = capturarClienteActual();
-    console.log(usuarioActual)
+
+//funcion para capturar la card seleccionada y retorna un objeto con los datos del producto
+const capturarDatosProductoElegido = (element) => {
     const productoElegido = {
-        id: e.id,
-        nombre: e.querySelector(".card-text").textContent,
-        precio: parseInt(e.querySelector(".precioCard").textContent),
+        id: element.id,
+        nombre: element.querySelector(".card-text").textContent,
+        precio: parseInt(element.querySelector(".precioCard").textContent),
         cantidad: 1,
-        img: e.querySelector("img").src,
-        sumaProductos: parseInt(e.querySelector(".precioCard").textContent)
+        img: element.querySelector("img").src,
+        sumaProductos: parseInt(element.querySelector(".precioCard").textContent)
     }
-    if (carrito.hasOwnProperty(productoElegido.id)) {
-        //Se aumenta la cantidad del producto en 1
-        productoElegido.cantidad = 1 + carrito[productoElegido.id].cantidad;
-    }
-    //Se suman el precio de los productos por la canntidad del mismo producto
-    productoElegido.sumaProductos = productoElegido.cantidad * productoElegido.precio;
-    carrito[productoElegido.id] = { ...productoElegido };
-    usuarioActual.carritoCliente = carrito
-    //Se suma el total del carrito
-    usuarioActual.cuentaTotal = sumaTotalCarrito(usuarioActual);
-    console.log(usuarioActual);
-    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
-    crearContadorCarrito()
+    return productoElegido;
 }
 
+
+//Captura el elemento seleccionado en este caso la card y suma la cantidad y el producto al carrito
+const agarrarProductoElegido = (element) => {
+    let usuarioActual = capturarClienteActual();
+    //Se crea un array con el carrito del usuario
+    const carritoValues = Object.values(usuarioActual.carritoCliente);
+    //Se crea un objeto con los valores de la card seleccionada
+    const productoCapturado = capturarDatosProductoElegido(element)
+    console.log("Producto elegido antes del for", productoCapturado)
+    //Si el carrito esta vacio
+    if (carritoValues.length <= 0) {
+        agregarProductoNuevoCarrito(usuarioActual, productoCapturado)
+    } else {
+        let esMismoProducto = aumentaCantidadMismoProducto(usuarioActual, productoCapturado.id)
+        sumaTotalMismoProducto(usuarioActual, productoCapturado.id)
+        if (!esMismoProducto) {
+            console.log("Estoy adentro")
+            agregarProductoNuevoCarrito(usuarioActual, productoCapturado)
+        }
+    }
+    console.log(usuarioActual.carritoCliente)
+    //Se suma el total del carrito
+    usuarioActual.cuentaTotal = sumaTotalCarrito(usuarioActual);
+    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+    sumarUnProductoCarrito()
+}
 
 /*-------------- EMPIEZA LOGICA USUARIO -------------- */
 
@@ -147,40 +176,6 @@ class Usuario {
         this.carritoCliente = carritoCliente;
         this.cuentaTotal = cuentaTotal;
         this.cantidadProductos = parseInt(cantidadProductos);
-    }
-    pedirProducto() {
-        let numeroIngresado = parseInt(
-            prompt("Ingrese el numero de la opción que quiere elegir")
-        );
-        let esCorrecto = true;
-        //se chequea que el valor ingresado este bien
-        do {
-            if (
-                Number.isNaN(numeroIngresado) ||
-                numeroIngresado < 1 ||
-                numeroIngresado > 4
-            ) {
-                numeroIngresado = parseInt(
-                    prompt("ERROR! Ingrese un numero entre 1 y 4")
-                );
-                esCorrecto = false;
-            } else {
-                esCorrecto = true;
-            }
-        } while (esCorrecto == false);
-        return numeroIngresado;
-    }
-
-    sumarProductos() {
-        let totalPedido;
-        let suma = 0;
-        this.carritoCliente.forEach((element) => {
-            totalPedido = suma += element.precio;
-        });
-        return totalPedido;
-    }
-    mostrarTotal(total) {
-        alert(`El total a pagar es ${total}`);
     }
 }
 
@@ -564,12 +559,13 @@ const agregarEventBtnCerrarSesion = (e) => {
     })
 }
 
-window.onload = function () {
+$(window).on("load", function () {
     //Si el usuario esta logueado se crean los botones de usuario
     if (localStorage.getItem("usuarioActual")) {
         crearBtnsUsuarioNavBar()
         let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"))
         agregarNombreUsuarioNavBar(usuarioActual.nombre);
+        crearContadorCarrito()
         agregarEventBtnCerrarSesion()
     } else {
         alertIngresarUsuario();
@@ -583,4 +579,4 @@ window.onload = function () {
             .querySelector("#Ordenarmenor")
             .addEventListener("click", ordenarProductosMenorPrecio);
     }
-};
+});

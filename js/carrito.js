@@ -1,8 +1,8 @@
 
 //funcion para agregar cards en el html
 const agregaCardProductoCarritoHtml = () => {
-    let clienteActual = capturarClienteActual();
-    for (const [key, value] of Object.entries(clienteActual.carritoCliente)) {
+    let usuarioActual = capturarClienteActual();
+    for (const [key, value] of Object.entries(usuarioActual.carritoCliente)) {
         $("#contenedorCarrito").prepend(`
         <div id="${value.id}" class="cardProductoCarrito d-flex flex-wrap align-items-center justify-content-evenly p-4 my-2">
             <div class="contenedorCarrito__img">
@@ -75,10 +75,6 @@ const dibujarBotonComprarCarrito = () => {
 window.onload = () => {
     let usuarioActual = capturarClienteActual()
     if (usuarioActual) {
-        console.log("hola ", usuarioActual.nombre);
-        agregarNombreUsuarioNavBar(usuarioActual.nombre)
-        crearBtnsUsuarioNavBar()
-        crearContadorCarrito()
         agregaCardProductoCarritoHtml();
         dibujarSumaTotalCarrito();
         if (usuarioActual.cuentaTotal > 0) {
