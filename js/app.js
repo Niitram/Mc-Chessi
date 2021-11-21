@@ -166,6 +166,14 @@ const capturarDatosProductoElegido = (element) => {
     return productoElegido;
 }
 
+//Habilita los botones de agregar al carrito
+const habilitaBotonAgregarCarrito = () => {
+    $(".btn-agregar-carrito").attr("disabled", false);
+}
+//deshabilita los botones de agregar al carrito
+const deshabilitaBotonAgregarCarrito = () => {
+    $(".btn-agregar-carrito").attr("disabled", true);
+}
 
 //Captura el elemento seleccionado en este caso la card y suma la cantidad y el producto al carrito
 const agarrarProductoElegido = (element) => {
@@ -590,6 +598,7 @@ const agregarEventBtnCerrarSesion = (e) => {
 }
 
 $(window).on("load", function () {
+
     //Si el usuario esta logueado se crean los botones de usuario
     if (localStorage.getItem("usuarioActual")) {
         crearBtnsUsuarioNavBar()
@@ -597,9 +606,14 @@ $(window).on("load", function () {
         agregarNombreUsuarioNavBar(usuarioActual.nombre);
         crearContadorCarrito()
         agregarEventBtnCerrarSesion()
+        habilitaBotonAgregarCarrito()
+
+        //Si el usuario no esta logueado
     } else {
         alertIngresarUsuario();
+        deshabilitaBotonAgregarCarrito()
     }
+
     //si el documento que se carga tiene es el index
     if (document.location.pathname === "/index.html" || document.location.pathname === "/Mc-Chessi/" || document.location.pathname === "/Mc-Chessi/index.html") {
         document
