@@ -164,7 +164,4 @@ window.onload = () => {
             dibujarBotonComprarCarrito();
         }
     }
-
-    modificarCantidadProductosCard(5, 8)
-
 }

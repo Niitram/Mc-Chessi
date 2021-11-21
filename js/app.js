@@ -74,12 +74,23 @@ const sumarUnProductoCarrito = () => {
     localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
     crearContadorCarrito()
 }
+
 //dibuja en el DOM la cantidad del carrito
 const crearContadorCarrito = () => {
+
+    //Si NO hay ningun usuario conectado elimina el contador
+    if (!capturarClienteActual()) {
+        $("#contadorCarritoNavbar").remove();
+        return
+    }
+
+    //Si hay un usuario conectado 
     const usuarioActual = capturarClienteActual();
-    if (usuarioActual.cantidadProductos > 1) {
+    if (usuarioActual.cantidadProductos >= 1) {
         $("#contadorCarritoNavbar").remove();
         $('#carritoNavbar').append(`<span id="contadorCarritoNavbar" class="carritoNavbar">${usuarioActual.cantidadProductos}</span>`)
+    } else {
+        $("#contadorCarritoNavbar").remove();
     }
 }
 
@@ -422,6 +433,7 @@ document.querySelector("#btnCrearUsuario").addEventListener("click", (e) => {
         agregarNombreUsuarioNavBar(nombreUsuario)
         crearBtnsUsuarioNavBar();
         agregarEventBtnCerrarSesion()
+        crearContadorCarrito();
     }
 })
 
@@ -573,6 +585,7 @@ const agregarEventBtnCerrarSesion = (e) => {
         crearBtnsUsuarioNavBar()
         $(".usuarioNavBar span").remove()
         $(".usuarioNavBar i").removeClass("color-viridian-green");
+        crearContadorCarrito()
     })
 }
 
