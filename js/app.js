@@ -88,8 +88,22 @@ const aumentaCantidadMismoProducto = (usuario, id) => {
     let encontrado = false;
     const carritoValues = Object.values(usuario.carritoCliente);
     carritoValues.forEach(producto => {
-        if (producto.id === id) {
+        if (producto.id == id) {
+            console.log("entre en el if")
             producto.cantidad = producto.cantidad + 1;
+            encontrado = true
+        }
+    })
+    return encontrado;
+}
+
+//Resta cantidad del mismo producto
+const restaCantidadMismoProducto = (usuario, id) => {
+    let encontrado = false;
+    const carritoValues = Object.values(usuario.carritoCliente);
+    carritoValues.forEach(producto => {
+        if (producto.id == id) {
+            producto.cantidad = producto.cantidad - 1;
             encontrado = true
         }
     })
@@ -98,12 +112,15 @@ const aumentaCantidadMismoProducto = (usuario, id) => {
 
 //Calcula suma total del los mismos productos
 const sumaTotalMismoProducto = (usuarioActual, id) => {
+    let sumaProductos
     const carritoValues = Object.values(usuarioActual.carritoCliente);
     carritoValues.forEach(producto => {
-        if (producto.id === id) {
+        if (producto.id == id) {
             producto.sumaProductos = producto.precio * producto.cantidad;
+            sumaProductos = parseInt(producto.sumaProductos)
         }
     })
+    return sumaProductos;
 
 }
 
