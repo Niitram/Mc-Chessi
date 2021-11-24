@@ -127,8 +127,12 @@ window.onload = () => {
             modificaTextoElemento(".sumaProductos", sumaMismoProducto, id)
             let sumaTotalProductos = sumaTotalCarrito(usuarioActual)
             usuarioActual.cuentaTotal = sumaTotalProductos
+            usuarioActual.cantidadProductos = usuarioActual.cantidadProductos + 1
+            //Le agrega el id para que pueda tener el evneto restar
+            $(`#contenedorCarrito #${id} .btnRestarCarrito`).attr("id", "btnRestarProducto")
             $("#totalCarrito").text(usuarioActual.cuentaTotal)
             localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+            crearContadorCarrito()
         }
 
         //Evento restar producto
@@ -136,11 +140,18 @@ window.onload = () => {
             e.stopPropagation
             let id = capturarIdProducto(e)
             let cantidad = restaCantidadProductosCard(id)
+
+            //Si la cantidad es 0
             if (cantidad <= 0) {
                 modificarCantidadProductosCard(id, cantidad)
                 modificaTextoElemento(".sumaProductos", cantidad, id)
-                let sumaTotalProductos = sumaTotalCarrito(usuarioActual)
+                restaCantidadMismoProductoA0(usuarioActual, id)
+                let sumaTotalProductos = restaTotalCarrito(usuarioActual, id)
                 usuarioActual.cuentaTotal = sumaTotalProductos
+                usuarioActual.cantidadProductos = usuarioActual.cantidadProductos - 1
+
+                //Le saca el id para que no pueda tener el vento click y que no siga restando
+                $(`#contenedorCarrito #${id} .btnRestarCarrito`).attr("id", "")
                 $("#totalCarrito").text(usuarioActual.cuentaTotal)
             }
             else {
@@ -149,12 +160,15 @@ window.onload = () => {
                 let sumaMismoProducto = sumaTotalMismoProducto(usuarioActual, id)
                 modificaTextoElemento(".sumaProductos", sumaMismoProducto, id)
                 let sumaTotalProductos = sumaTotalCarrito(usuarioActual)
+                console.log(usuarioActual.cantidadProductos)
+                usuarioActual.cantidadProductos = usuarioActual.cantidadProductos - 1
                 usuarioActual.cuentaTotal = sumaTotalProductos
                 $("#totalCarrito").text(usuarioActual.cuentaTotal)
             }
             localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
-        }
+            crearContadorCarrito()
 
+        }
     })
 
     if (usuarioActual) {

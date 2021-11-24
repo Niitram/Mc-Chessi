@@ -100,7 +100,6 @@ const aumentaCantidadMismoProducto = (usuario, id) => {
     const carritoValues = Object.values(usuario.carritoCliente);
     carritoValues.forEach(producto => {
         if (producto.id == id) {
-            console.log("entre en el if")
             producto.cantidad = producto.cantidad + 1;
             encontrado = true
         }
@@ -115,6 +114,18 @@ const restaCantidadMismoProducto = (usuario, id) => {
     carritoValues.forEach(producto => {
         if (producto.id == id) {
             producto.cantidad = producto.cantidad - 1;
+            encontrado = true
+        }
+    })
+    return encontrado;
+}
+//Resta cantidad del mismo producto a 0
+const restaCantidadMismoProductoA0 = (usuario, id) => {
+    let encontrado = false;
+    const carritoValues = Object.values(usuario.carritoCliente);
+    carritoValues.forEach(producto => {
+        if (producto.id == id) {
+            producto.cantidad = 0;
             encontrado = true
         }
     })
@@ -150,6 +161,17 @@ const sumaTotalCarrito = (usuarioActual) => {
     }
     return sumaTotal;
 }
+//Restar el total de los productos en el carrito
+const restaTotalCarrito = (usuarioActual, id) => {
+    let precioProducto = 0;
+    for (const [productos, producto] of Object.entries(usuarioActual.carritoCliente)) {
+        if (producto.id == id) {
+            precioProducto = producto.precio
+        }
+    }
+    usuarioActual.cuentaTotal = usuarioActual.cuentaTotal - precioProducto;
+    return usuarioActual.cuentaTotal;
+}
 
 
 
@@ -177,12 +199,15 @@ const deshabilitaBotonAgregarCarrito = () => {
 
 //Captura el elemento seleccionado en este caso la card y suma la cantidad y el producto al carrito
 const agarrarProductoElegido = (element) => {
+
     let usuarioActual = capturarClienteActual();
+
     //Se crea un array con el carrito del usuario
     const carritoValues = Object.values(usuarioActual.carritoCliente);
+
     //Se crea un objeto con los valores de la card seleccionada
     const productoCapturado = capturarDatosProductoElegido(element)
-    console.log("Producto elegido antes del for", productoCapturado)
+
     //Si el carrito esta vacio
     if (carritoValues.length <= 0) {
         agregarProductoNuevoCarrito(usuarioActual, productoCapturado)
@@ -190,11 +215,11 @@ const agarrarProductoElegido = (element) => {
         let esMismoProducto = aumentaCantidadMismoProducto(usuarioActual, productoCapturado.id)
         sumaTotalMismoProducto(usuarioActual, productoCapturado.id)
         if (!esMismoProducto) {
-            console.log("Estoy adentro")
             agregarProductoNuevoCarrito(usuarioActual, productoCapturado)
         }
     }
     console.log(usuarioActual.carritoCliente)
+
     //Se suma el total del carrito
     usuarioActual.cuentaTotal = sumaTotalCarrito(usuarioActual);
     localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
