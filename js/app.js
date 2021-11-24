@@ -190,11 +190,11 @@ const capturarDatosProductoElegido = (element) => {
 
 //Habilita los botones de agregar al carrito
 const habilitaBotonAgregarCarrito = () => {
-    $(".btn-agregar-carrito").attr("disabled", false);
+    $(".btnAgregarCarrito").attr("disabled", false);
 }
 //deshabilita los botones de agregar al carrito
 const deshabilitaBotonAgregarCarrito = () => {
-    $(".btn-agregar-carrito").attr("disabled", true);
+    $(".btnAgregarCarrito").attr("disabled", true);
 }
 
 //Captura el elemento seleccionado en este caso la card y suma la cantidad y el producto al carrito
@@ -394,6 +394,7 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
         animacionEmergente('#creandoUsuarioEmergente')
         alertaUsuarioCreado()
         agregarNombreUsuarioNavBar(nombreUsuario.nombre)
+        habilitaBotonAgregarCarrito()
         crearUsuarioActual(nombreUsuario);
         document.getElementById("btnCerrarcanvas").click();
         if (document.getElementById("btnCerrarAlertIngresarUsuario") != null) {
@@ -419,6 +420,7 @@ const creaObjetoUsuario = (nombreUsuario, password) => {
             animacionEmergente('#creandoUsuarioEmergente')
             alertaUsuarioCreado()
             agregarNombreUsuarioNavBar(nombreUsuario.nombre);
+            habilitaBotonAgregarCarrito()
             crearUsuarioActual(nombreUsuario);
             document.getElementById("btnCerrarcanvas").click();
             if (document.getElementById("btnCerrarAlertIngresarUsuario") != null) {
@@ -524,6 +526,7 @@ const login = (nombreUsuario, password) => {
             crearBtnsUsuarioNavBar()
             agregarNombreUsuarioNavBar(nombreUsuario)
             crearUsuarioActual(element)
+            habilitaBotonAgregarCarrito()
             loginUsuarioEmergente()
             animacionEmergente('#loginUsuarioEmergente')
             //Si no se cerro el alert previamente lo cierra con el btn cerrar
@@ -619,6 +622,7 @@ const agregarEventBtnCerrarSesion = (e) => {
         $(".usuarioNavBar span").remove()
         $(".usuarioNavBar i").removeClass("color-viridian-green");
         crearContadorCarrito()
+        deshabilitaBotonAgregarCarrito()
     })
 }
 
@@ -631,15 +635,13 @@ $(window).on("load", function () {
         agregarNombreUsuarioNavBar(usuarioActual.nombre);
         crearContadorCarrito()
         agregarEventBtnCerrarSesion()
-        habilitaBotonAgregarCarrito()
 
         //Si el usuario no esta logueado
     } else {
         alertIngresarUsuario();
-        deshabilitaBotonAgregarCarrito()
     }
 
-    //si el documento que se carga tiene es el index
+    //si el documento que se carga es el index
     if (document.location.pathname === "/index.html" || document.location.pathname === "/Mc-Chessi/" || document.location.pathname === "/Mc-Chessi/index.html") {
         document
             .querySelector("#Ordenarmayor")

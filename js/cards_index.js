@@ -101,6 +101,15 @@ window.onload = function () {
             dibujarIngredientes(nombreProducto, idCard)
         }
     })
+
+    if (localStorage.getItem("usuarioActual")) {
+        habilitaBotonAgregarCarrito()
+    } else {
+        deshabilitaBotonAgregarCarrito()
+        console.log("asdasd")
+    }
+
+
 };
 
 
