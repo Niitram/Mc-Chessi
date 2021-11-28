@@ -1,5 +1,5 @@
 const vaciarCliente = () => {
-    let usuarioActual = capturarClienteActual()
+    let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
     //Se borra el carrito del cliente
     usuarioActual = {
         cantidadProductos: 0,
@@ -9,10 +9,6 @@ const vaciarCliente = () => {
         password: usuarioActual.password,
         pedidoNumero: [1]
     }
-    console.log(usuarioActual)
     localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
 }
-
-window.onload = () => {
-    vaciarCliente()
-}
+vaciarCliente()
