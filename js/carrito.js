@@ -111,6 +111,10 @@ const finalizarCompra = () => {
     let usuarioActual = capturarClienteActual()
     let carrito = usuarioActual.carritoCliente
     let posicionOrigin = document.location.origin
+    let url = "/pagado.html"
+    if (posicionOrigin == "https://niitram.github.io") {
+        url = "/Mc-Chessi/pagado.html"
+    }
     //Construccion de objeto para enviar al servidor
     const caritoMapeado = carrito.map((producto) => {
         return {
@@ -135,25 +139,14 @@ const finalizarCompra = () => {
             items: caritoMapeado,
             //URL a la que vuelve cuando termina la compra
             back_urls: {
-                success: `${posicionOrigin}/pagado.html`,
+                success: `${posicionOrigin}${url}`,
                 fallure: window.location.href
             }
         })
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
-            //Se borra el carrito del cliente
-            usuarioActual = {
-                cantidadProductos: 0,
-                carritoCliente: [],
-                cuentaTotal: 0,
-                nombre: usuarioActual.nombre,
-                password: usuarioActual.password,
-                pedidoNumero: [1]
-            }
-            console.log(usuarioActual)
-            localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+
             //Remplaza el link por el de mercado pago
             window.location.replace(data.init_point);
 
