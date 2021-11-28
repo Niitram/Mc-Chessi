@@ -104,8 +104,115 @@ const dibujarBotonComprarCarrito = () => {
 
 
 
+
+//Finaliza la compra con mercado pago
+const finalizarCompra = () => {
+
+    let usuarioActual = capturarClienteActual()
+    let carrito = usuarioActual.carritoCliente
+    let posicionOrigin = document.location.origin
+    //Construccion de objeto para enviar al servidor
+    const caritoMapeado = carrito.map((producto) => {
+        return {
+            title: producto.nombre,
+            description: "",
+            picture_url: producto.img,
+            category_id: producto.id,
+            quantity: producto.cantidad,
+            currency_id: "ARS",
+            unit_price: producto.precio
+        }
+    })
+
+    fetch('https://api.mercadopago.com/checkout/preferences', {
+        method: 'POST',
+        headers: {
+            //autenticacion con la credencial de prueba
+            Authorization: 'Bearer TEST-5344314592224001-112814-4d170316beff6ac11f2542e19500fa82-165464610'
+        },
+        body: JSON.stringify({
+            //items que quiero cobrar
+            items: caritoMapeado,
+            //URL a la que vuelve cuando termina la compra
+            back_urls: {
+                success: `${posicionOrigin}/pagado.html`,
+                fallure: window.location.href
+            }
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            //Se borra el carrito del cliente
+            usuarioActual = {
+                cantidadProductos: 0,
+                carritoCliente: [],
+                cuentaTotal: 0,
+                nombre: usuarioActual.nombre,
+                password: usuarioActual.password,
+                pedidoNumero: [1]
+            }
+            console.log(usuarioActual)
+            localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+            //Remplaza el link por el de mercado pago
+            window.location.replace(data.init_point);
+
+        })
+}
+
+
+/* curl -X POST \
+    'https://api.mercadopago.com/checkout/preferences' \
+    -H 'Authorization: Bearer YOUR_ACCESS_TOKEN' \
+    -H 'Content-Type: application/json' \
+    -d '{
+  "items": [
+    {
+      "title": "Dummy Title",
+      "description": "Dummy description",
+      "picture_url": "http://www.myapp.com/myimage.jpg",
+      "category_id": "cat123",
+      "quantity": 1,
+      "currency_id": "U$",
+      "unit_price": 10
+    }
+  ],
+  "payer": {
+    "phone": {},
+    "identification": {},
+    "address": {}
+  },
+  "payment_methods": {
+    "excluded_payment_methods": [
+      {}
+    ],
+    "excluded_payment_types": [
+      {}
+    ]
+  },
+  "shipments": {
+    "free_methods": [
+      {}
+    ],
+    "receiver_address": {}
+  },
+  "back_urls": {},
+  "differential_pricing": {},
+  "tracks": [
+    {
+      "type": "google_ad"
+    }
+  ]
+}' */
+
+
+
+
 window.onload = () => {
     let usuarioActual = capturarClienteActual()
+
+    console.log(window.location.href)
+    console.log(document.location.origin)
 
     //los eventos click de los botones
     document.addEventListener("click", (e) => {
@@ -113,7 +220,7 @@ window.onload = () => {
         //Evento comprar producto
         if (e.target.id == "btnComprarCarrito") {
             e.stopPropagation
-
+            finalizarCompra()
         }
 
         //Evento sumar producto
@@ -149,8 +256,7 @@ window.onload = () => {
                 let sumaTotalProductos = restaTotalCarrito(usuarioActual, id)
                 usuarioActual.cuentaTotal = sumaTotalProductos
                 usuarioActual.cantidadProductos = usuarioActual.cantidadProductos - 1
-
-                //Le saca el id para que no pueda tener el vento click y que no siga restando
+                //Le saca el id para que no pueda tener el evento click y que no siga restando
                 $(`#contenedorCarrito #${id} .btnRestarCarrito`).attr("id", "")
                 $("#totalCarrito").text(usuarioActual.cuentaTotal)
             }
