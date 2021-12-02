@@ -226,6 +226,8 @@ window.onload = () => {
             let sumaMismoProducto = sumaTotalMismoProducto(usuarioActual, id)
             modificaTextoElemento(".sumaProductos", sumaMismoProducto, id)
             let sumaTotalProductos = sumaTotalCarrito(usuarioActual)
+            console.log("usuarioActual.cuentaTotal", usuarioActual.cuentaTotal)
+            console.log("sumaTotalProductos", sumaTotalProductos)
             usuarioActual.cuentaTotal = sumaTotalProductos
             usuarioActual.cantidadProductos = usuarioActual.cantidadProductos + 1
             //Le agrega el id para que pueda tener el evneto restar
@@ -249,6 +251,9 @@ window.onload = () => {
                 let sumaTotalProductos = restaTotalCarrito(usuarioActual, id)
                 usuarioActual.cuentaTotal = sumaTotalProductos
                 usuarioActual.cantidadProductos = usuarioActual.cantidadProductos - 1
+                if (usuarioActual.cantidadProductos <= 0) {
+                    usuarioActual.cuentaTotal = 0
+                }
                 //Le saca el id para que no pueda tener el evento click y que no siga restando
                 $(`#contenedorCarrito #${id} .btnRestarCarrito`).attr("id", "")
                 $("#totalCarrito").text(usuarioActual.cuentaTotal)

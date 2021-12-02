@@ -157,7 +157,13 @@ const agregarProductoNuevoCarrito = (usuarioActual, productoCapturado) => {
 const sumaTotalCarrito = (usuarioActual) => {
     let sumaTotal = 0;
     for (const [productos, producto] of Object.entries(usuarioActual.carritoCliente)) {
-        sumaTotal = producto.sumaProductos + sumaTotal;
+        if (producto.cantidad > 0) {
+            console.log("nombre", producto.nombre);
+            console.log("cantidad", producto.cantidad);
+            console.log("precio", producto.precio);
+            sumaTotal = producto.sumaProductos + sumaTotal;
+        }
+
     }
     return sumaTotal;
 }
