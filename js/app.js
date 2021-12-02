@@ -40,8 +40,6 @@ class Bebida {
 
 const botellaDeAgua = new Bebida("Botella de agua", 100, "4", 50, "botella-de-agua.jpg", 0);
 
-
-
 //Funcion ordenar productos por menor precio
 const ordenarProductosMenorPrecio = () => {
     const productoMenorPrecio = productos.sort((a, b) => {
@@ -179,8 +177,6 @@ const restaTotalCarrito = (usuarioActual, id) => {
     return usuarioActual.cuentaTotal;
 }
 
-
-
 //funcion para capturar la card seleccionada y retorna un objeto con los datos del producto
 const capturarDatosProductoElegido = (element) => {
     const productoElegido = {
@@ -279,6 +275,7 @@ const creandoUsuarioEmergente = () => {
         </div>
     `)
 }
+
 //Alerta de usuario creado
 const alertaUsuarioCreado = () => {
     setTimeout(() => {
@@ -320,6 +317,7 @@ const loginUsuarioEmergente = () => {
         </div>
     `)
 }
+
 //Animacion de creacion de usuario emergente
 const animacionEmergente = (elemento) => {
     $(`${elemento}`).fadeIn(1000).delay(2000).fadeOut(1000)
@@ -373,10 +371,12 @@ const agregaBtnsLoginYCrearUsuario = (estaLogueado) => {
         `);
     }
 }
+
 //Verifica si el usuario actual existe
 const verificaUsuarioActual = () => {
     return localStorage.getItem("usuarioActual") != null ? true : false;
 }
+
 //Se crean los botones para el usuario en el navBar
 const crearBtnsUsuarioNavBar = () => {
     let estaConectado = verificaUsuarioActual()
@@ -500,6 +500,7 @@ const alertUsuarioExistente = () => {
     let contenedor = document.getElementById("offcanvasTop1");
     contenedor.appendChild(alertIngresar);
 };
+
 //funcion alerta el usuario fue creado con exito
 const alertaBienvenidaUsuario = (usuario) => {
     $('body header').append(`

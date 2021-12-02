@@ -1,3 +1,4 @@
+//Una vez que se realiza el pago se vacia el carrito del Cliente
 const vaciarCliente = () => {
     let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
     //Se borra el carrito del cliente
@@ -11,4 +12,5 @@ const vaciarCliente = () => {
     }
     localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
 }
+
 vaciarCliente()

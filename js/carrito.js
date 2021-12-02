@@ -65,32 +65,7 @@ const restaCantidadProductosCard = (id) => {
     }
     return cantidad - 1
 }
-//Funcion sumar producto desde el carrito
-/* const sumarProductoDesdeCarrito = (element) => {
-    console.log(element.querySelector("#cantidadProductos").textContent)
-    const productoElegido = {
-        id: element.id,
-        nombre: element.querySelector("h4").textContent,
-        precio: parseInt(element.querySelector(".precioProducto").textContent),
-        cantidad: parseInt(element.querySelector("#cantidadProductos").textContent),
-        img: element.querySelector("img").src,
-        sumaProductos: parseInt(element.querySelector(".sumaProductos").textContent)
-    }
-    if (carrito.hasOwnProperty(productoElegido.id)) {
-        //Se aumenta la cantidad del producto en 1
-        productoElegido.cantidad = 1 + carrito[productoElegido.id].cantidad;
-    }
-    //Se suman el precio de los productos por la canntidad del mismo producto
-    productoElegido.sumaProductos = productoElegido.cantidad * productoElegido.precio;
-    carrito[productoElegido.id] = { ...productoElegido };
-    let usuarioActual = capturarClienteActual();
-    usuarioActual.carritoCliente = carrito
-    //Se suma el total del carrito
-    usuarioActual.cuentaTotal = sumaTotalCarrito(usuarioActual);
-    console.log(usuarioActual);
-    localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
-    crearContadorCarrito()
-} */
+
 
 //Funcion para dibujar el boton de comprar carrito
 const dibujarBotonComprarCarrito = () => {
@@ -226,8 +201,6 @@ window.onload = () => {
             let sumaMismoProducto = sumaTotalMismoProducto(usuarioActual, id)
             modificaTextoElemento(".sumaProductos", sumaMismoProducto, id)
             let sumaTotalProductos = sumaTotalCarrito(usuarioActual)
-            console.log("usuarioActual.cuentaTotal", usuarioActual.cuentaTotal)
-            console.log("sumaTotalProductos", sumaTotalProductos)
             usuarioActual.cuentaTotal = sumaTotalProductos
             usuarioActual.cantidadProductos = usuarioActual.cantidadProductos + 1
             //Le agrega el id para que pueda tener el evneto restar

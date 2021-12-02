@@ -45,6 +45,7 @@ const esNombreProducto = async (producto) => {
         })
     });
 }
+
 // Desafio clase 14 AJAX con jQuery
 //captura los ingredientes de ingredientes.JSON y los retorna en un arreglo
 const obtenerIngredientes = async (producto) => {
@@ -65,10 +66,12 @@ const obtenerIngredientes = async (producto) => {
 const modeloListaIngredientes = (ingrediente, id) => {
     $(`#listaIngredientes${id}`).append(`<li class="my-1 border-bottom-gray-1"><i class="far fa-check-circle color-goldenrod"></i> ${ingrediente}</li>`);
 }
+
 //funcion para pedir nombre del producto y llamar a la funcion que dibuja los ingredientes
 const pedirNombreProducto = (e) => {
     return e.target.parentNode.parentNode.childNodes[3].childNodes[1].textContent
 }
+
 //funcion que recupera el id de la card
 const obtenerIdCard = (e) => {
     return e.target.parentNode.parentNode.id
@@ -82,8 +85,6 @@ const dibujarIngredientes = (nombreProductoCard, id) => {
         })
     });
 }
-
-
 
 window.onload = function () {
     //Se cargan las cards en el html
